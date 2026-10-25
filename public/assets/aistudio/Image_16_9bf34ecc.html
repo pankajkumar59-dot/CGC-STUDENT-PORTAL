@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+  <meta content="mobile_tab" name="shell-type"/>
+  <title>CGC Mohali • Student Portal</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect"/>
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#002046",
+            "primary-container": "#1b365d",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#87a0cd",
+            "secondary": "#835500",
+            "secondary-container": "#feae2c",
+            "on-secondary-container": "#6b4500",
+            "surface": "#f8f9ff",
+            "surface-dim": "#cbdbf5",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "surface-container": "#e5eeff",
+            "surface-container-high": "#dce9ff",
+            "surface-container-highest": "#d3e4fe",
+            "on-surface": "#0b1c30",
+            "on-surface-variant": "#44474e",
+            "outline": "#74777f",
+            "outline-variant": "#c4c6cf",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"],
+            body: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    ::-webkit-scrollbar { display: none; }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 12px); }
+    .pt-safe { padding-top: env(safe-area-inset-top, 8px); }
+    @keyframes pulseBar { 0%, 100% { height: 4px; } 50% { height: 22px; } }
+    .v-bar { animation: pulseBar 0.9s ease-in-out infinite; }
+    .v-bar:nth-child(2) { animation-delay: 0.15s; }
+    .v-bar:nth-child(3) { animation-delay: 0.3s; }
+    .v-bar:nth-child(4) { animation-delay: 0.45s; }
+  </style>
+</head>
+<body class="bg-surface font-sans text-on-surface antialiased flex flex-col min-h-screen select-none">
+
+<!-- Dynamic Top Header Bar -->
+<header class="fixed top-0 w-full z-40 pt-safe bg-surface/90 backdrop-blur-xl border-b border-surface-container shadow-sm">
+  <div class="h-14 px-4 flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2 min-w-0">
+      <button id="backNavBtn" class="hidden w-8 h-8 -ml-1 rounded-full flex items-center justify-center text-primary hover:bg-surface-container active:scale-95" onclick="navigateBack()" aria-label="Go Back">
+        <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+      </button>
+      <img alt="CGC" id="portalLogo" class="h-7 w-auto object-contain cursor-pointer" onclick="navigateTo('dashboard')" src="https://lh3.googleusercontent.com/aida/AEtjO1X4optcITPddOZqk-Lg82pxc7PUiwdylTKlr1pOEn7zrfRUAr-HkTB8VRNIxgQDjCYtSi0lTp8m5mIgIOWvNiEDYP-CpDOeuplWYqpHYqpesuitSTrEoZb18J2DdV0dbpOnRbAMMMFS0YjaXz0IE1udzHVcXs7Hb5iFX02AdMfytl2Hy2ZcwhuzYgIuTyNGwyO6NQVHh-QS44aXeZ_pg45AVZ0PlJJOxjjDWnOhW777Q_9yEVCmOdIwOk"/>
+      <div class="flex flex-col min-w-0 cursor-pointer" onclick="navigateTo('dashboard')">
+        <span class="text-[9px] font-bold text-secondary uppercase tracking-wider truncate" id="headerTag">CGC MOHALI • PORTAL</span>
+        <span class="text-[15px] font-bold text-primary truncate leading-tight" id="headerTitle">Dashboard</span>
+      </div>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-1.5 flex-shrink-0">
+      <button aria-label="Campus Directory" class="w-8 h-8 flex items-center justify-center rounded-full text-primary hover:bg-surface-container active:scale-95 border border-surface-container" onclick="navigateTo('campus-info')">
+        <span class="material-symbols-outlined text-[19px]">domain</span>
+      </button>
+      <button aria-label="Notifications" class="relative w-8 h-8 flex items-center justify-center rounded-full text-primary hover:bg-surface-container active:scale-95" onclick="navigateTo('notifications')">
+        <span class="material-symbols-outlined text-[20px]">notifications</span>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error" id="notifBadge"></span>
+      </button>
+      <button aria-label="Profile" class="w-8 h-8 rounded-full ring-2 ring-secondary-container active:scale-95 overflow-hidden" onclick="navigateTo('profile')">
+        <img alt="Aarav" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1U07Q_ajkWWPLzKZJQbMb1QJp8FkzU2FbjYHR8VZ4sTvNWnGcXcSrfHIGfkQNeYZBGpBbhE1o5WAL_f5T0bCKJthyw_Lz31RbhyK_kNG5X1Ksp5BfBydvUqHCvQ_ikSJEIcgL68ANKE5YzxroQK0N4wzR-KSLqQ2gXbQkIMdKrhYSz3LBXTduZF68iy7Fj2ZX_tuozp4LYYerlx-1GIZ0wPgWAAIYaanu_7JElXHGjUjFVLPrgaWdMSx34"/>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Main Container -->
+<main class="flex-1 flex flex-col relative w-full pt-14 pb-20 bg-surface">
+
+  <!-- ================= 1. DASHBOARD VIEW ================= -->
+  <section class="app-view flex flex-col w-full px-4 pt-3 pb-6 gap-3.5" id="view-dashboard">
+    <!-- Student Standing Hero Card -->
+    <div class="relative overflow-hidden rounded-2xl bg-primary-container text-on-primary p-4 shadow-md">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[9px] font-bold uppercase tracking-wider cursor-pointer" onclick="navigateTo('campus-info')">
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Landran Campus
+            </span>
+            <span class="text-on-primary-container text-[10px]">• Sem 4 (Sec B)</span>
+          </div>
+          <h2 class="text-xl font-extrabold tracking-tight truncate flex items-center gap-1 cursor-pointer" onclick="navigateTo('profile')">
+            Aarav Sharma
+            <span class="material-symbols-outlined text-[18px] text-secondary-container">chevron_right</span>
+          </h2>
+          <p class="text-[11px] text-on-primary-container mt-0.5 cursor-pointer" onclick="navigateTo('profile')">Roll No: 2104928 • B.Tech CSE</p>
+        </div>
+
+        <!-- 88% Attendance Circle (Clickable to Attendance View) -->
+        <div class="flex flex-col items-center flex-shrink-0 bg-white/10 hover:bg-white/20 active:scale-95 transition-all cursor-pointer rounded-xl p-2 border border-white/10" onclick="navigateTo('attendance')" title="View Attendance & Bunk Simulator">
+          <div class="relative w-12 h-12 flex items-center justify-center">
+            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+              <path class="text-on-primary-container opacity-30" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+              <path class="text-secondary-container" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="88, 100" stroke-linecap="round" stroke-width="3.5"></path>
+            </svg>
+            <span class="absolute text-xs font-black text-on-primary">88%</span>
+          </div>
+          <span class="text-[9px] font-bold text-secondary-container mt-0.5 flex items-center gap-0.5">Safe (&gt;75%) <span class="material-symbols-outlined text-[10px]">open_in_new</span></span>
+        </div>
+      </div>
+
+      <!-- CGPA & Academic Mobility Links -->
+      <div class="mt-3.5 pt-3 border-t border-white/10 flex items-center justify-between text-xs">
+        <div class="flex items-center gap-1.5 cursor-pointer bg-white/10 hover:bg-white/20 px-2.5 py-1 rounded-lg transition-colors" onclick="navigateTo('results')">
+          <span class="material-symbols-outlined text-[15px] text-secondary-container">verified</span>
+          <span class="text-on-primary font-bold">CGPA: 8.64</span>
+          <span class="text-[10px] text-secondary-container underline ml-0.5">Grade Sheet</span>
+        </div>
+        <div class="flex items-center gap-1 text-[11px] cursor-pointer hover:text-white" onclick="navigateTo('academic-mobility')">
+          <span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+          <span class="text-on-primary font-medium">NEP Mobility 2024</span>
+          <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Up Lecture Banner (Clickable to Timetable) -->
+    <div class="relative overflow-hidden rounded-xl bg-surface-container-lowest p-3 shadow-sm border border-surface-container hover:border-secondary-container/50 cursor-pointer active:scale-[0.99] transition-all" onclick="navigateTo('timetable')">
+      <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary-container"></div>
+      <div class="flex items-start justify-between gap-2 pl-1">
+        <div class="flex items-start gap-2.5 min-w-0">
+          <div class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+            <span class="material-symbols-outlined text-[20px]">laptop_mac</span>
+          </div>
+          <div class="flex flex-col min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[9px] px-2 py-0.2 rounded-full bg-surface-container-high text-primary font-bold">NEXT UP • 11:00 AM</span>
+              <span class="text-[10px] text-secondary font-bold">Block 3 • Rm 402</span>
+            </div>
+            <h3 class="text-xs font-bold text-primary truncate mt-0.5">Operating Systems</h3>
+            <p class="text-[11px] text-on-surface-variant truncate">Dr. Preetinder Kaur • Unit 3 Process & Deadlocks</p>
+          </div>
+        </div>
+        <button class="flex-shrink-0 w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-primary">
+          <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Academic Hub 2x2 Grid -->
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xs font-bold text-primary uppercase tracking-wide">Academic Hub</h3>
+        <span class="text-[9px] text-secondary font-bold uppercase">Fast Access</span>
+      </div>
+      <div class="grid grid-cols-2 gap-2.5">
+        <!-- Notes & Books -->
+        <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm hover:border-secondary transition-all cursor-pointer active:scale-95" onclick="navigateTo('notes')">
+          <div class="flex items-start justify-between">
+            <div class="w-9 h-9 rounded-lg bg-surface-container-high text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">menu_book</span>
+            </div>
+            <span class="px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary-container text-[8px] font-bold">48 New</span>
+          </div>
+          <h4 class="text-xs font-bold text-primary mt-2">Notes &amp; Books</h4>
+          <p class="text-[10px] text-on-surface-variant truncate">Curated toppers' pdfs</p>
+        </div>
+
+        <!-- Curriculum -->
+        <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm hover:border-secondary transition-all cursor-pointer active:scale-95" onclick="navigateTo('syllabus')">
+          <div class="flex items-start justify-between">
+            <div class="w-9 h-9 rounded-lg bg-surface-container-high text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">assignment_turned_in</span>
+            </div>
+            <span class="px-1.5 py-0.2 rounded-full bg-surface-container text-primary text-[8px] font-bold">2024-25</span>
+          </div>
+          <h4 class="text-xs font-bold text-primary mt-2">Curriculum</h4>
+          <p class="text-[10px] text-on-surface-variant truncate">PTU scheme &amp; units</p>
+        </div>
+
+        <!-- Solved PYQs -->
+        <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm hover:border-secondary transition-all cursor-pointer active:scale-95" onclick="openDrawer('pyqDrawer')">
+          <div class="flex items-start justify-between">
+            <div class="w-9 h-9 rounded-lg bg-surface-container-high text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">history_edu</span>
+            </div>
+            <span class="px-1.5 py-0.2 rounded-full bg-surface-container text-primary text-[8px] font-bold">Solved</span>
+          </div>
+          <h4 class="text-xs font-bold text-primary mt-2">PYQ Papers</h4>
+          <p class="text-[10px] text-on-surface-variant truncate">Mid-term &amp; End-term</p>
+        </div>
+
+        <!-- CGC Copilot AI -->
+        <div class="p-3 rounded-xl bg-primary text-on-primary shadow-sm hover:bg-primary-container transition-all cursor-pointer active:scale-95" onclick="navigateTo('copilot')">
+          <div class="flex items-start justify-between">
+            <div class="w-9 h-9 rounded-lg bg-white/10 text-secondary-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+            </div>
+            <span class="px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary-container text-[8px] font-bold">Smart AI</span>
+          </div>
+          <h4 class="text-xs font-bold mt-2">CGC Copilot</h4>
+          <p class="text-[10px] text-on-primary-container truncate">Instant doubt solver</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Department Study Shelf Spotlight -->
+    <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[18px] text-secondary">local_library</span>
+          <span class="text-xs font-bold text-primary">Department Study Shelf</span>
+        </div>
+        <span class="text-[11px] font-bold text-secondary hover:underline cursor-pointer" onclick="navigateTo('notes')">View All</span>
+      </div>
+      <div class="p-3 rounded-lg bg-gradient-to-r from-primary-container to-primary text-on-primary flex items-center justify-between cursor-pointer active:scale-[0.99] transition-transform" onclick="openDrawer('masterRepoDrawer')">
+        <div class="min-w-0 pr-2">
+          <span class="px-1.5 py-0.2 rounded bg-secondary-container text-on-secondary-container text-[8px] font-bold uppercase">CSE 4th Sem Master Vault</span>
+          <p class="text-xs font-bold text-on-primary truncate mt-1">Handwritten Notes, Viva &amp; Lab Codes</p>
+          <p class="text-[10px] text-on-primary-container">Dr. Preetinder Kaur, Prof. Hardeep Singh</p>
+        </div>
+        <span class="w-7 h-7 rounded-full bg-white/20 text-on-primary flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Recent Notes & Materials List -->
+    <div class="flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[17px] text-primary">description</span>
+          <h3 class="text-xs font-bold text-primary">Recent Notes &amp; Materials</h3>
+        </div>
+        <button class="text-[11px] text-secondary font-bold hover:underline" onclick="navigateTo('notes')">Explore 50+ Files</button>
+      </div>
+
+      <div class="space-y-2">
+        <!-- Item 1: OS -->
+        <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-center justify-between gap-2.5">
+          <div class="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1" onclick="openNoteReader('OS_Unit3_Semaphores.pdf', 'OS: Process Sync & Semaphores')">
+            <div class="w-9 h-9 rounded-lg bg-surface-container-high flex flex-col items-center justify-center text-primary flex-shrink-0">
+              <span class="material-symbols-outlined text-[17px]">picture_as_pdf</span>
+              <span class="text-[8px] font-bold text-secondary">4.2 MB</span>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <h4 class="text-xs font-bold text-primary truncate">OS: Process Sync &amp; Deadlocks</h4>
+              <p class="text-[10px] text-on-surface-variant truncate">Unit 3 Handwritten • Verified Topper Note</p>
+            </div>
+          </div>
+          <button class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary-container hover:text-on-secondary-container active:scale-90 flex items-center justify-center text-primary transition-all flex-shrink-0" onclick="triggerDownload('OS_Unit3_Semaphores.pdf')">
+            <span class="material-symbols-outlined text-[18px]">download</span>
+          </button>
+        </div>
+
+        <!-- Item 2: DAA -->
+        <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-center justify-between gap-2.5">
+          <div class="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1" onclick="openNoteReader('DAA_DynamicProgramming.pdf', 'DAA: Dynamic Programming Formulas')">
+            <div class="w-9 h-9 rounded-lg bg-surface-container-high flex flex-col items-center justify-center text-primary flex-shrink-0">
+              <span class="material-symbols-outlined text-[17px]">code</span>
+              <span class="text-[8px] font-bold text-secondary">2.8 MB</span>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <h4 class="text-xs font-bold text-primary truncate">DAA: Dynamic Programming Sheet</h4>
+              <p class="text-[10px] text-on-surface-variant truncate">0/1 Knapsack, LCS, Matrix Chain &amp; Graph</p>
+            </div>
+          </div>
+          <button class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary-container hover:text-on-secondary-container active:scale-90 flex items-center justify-center text-primary transition-all flex-shrink-0" onclick="triggerDownload('DAA_DynamicProgramming.pdf')">
+            <span class="material-symbols-outlined text-[18px]">download</span>
+          </button>
+        </div>
+
+        <!-- Item 3: DBMS -->
+        <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-center justify-between gap-2.5">
+          <div class="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1" onclick="openNoteReader('DBMS_SQL_Normalization.pdf', 'DBMS: Normalization & SQL')">
+            <div class="w-9 h-9 rounded-lg bg-surface-container-high flex flex-col items-center justify-center text-primary flex-shrink-0">
+              <span class="material-symbols-outlined text-[17px]">database</span>
+              <span class="text-[8px] font-bold text-secondary">5.1 MB</span>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <h4 class="text-xs font-bold text-primary truncate">DBMS: SQL &amp; Normalization Revision</h4>
+              <p class="text-[10px] text-on-surface-variant truncate">Quick review cards + 1NF to BCNF charts</p>
+            </div>
+          </div>
+          <button class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary-container hover:text-on-secondary-container active:scale-90 flex items-center justify-center text-primary transition-all flex-shrink-0" onclick="triggerDownload('DBMS_SQL_Normalization.pdf')">
+            <span class="material-symbols-outlined text-[18px]">download</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CGC Official Notice Board Widget -->
+    <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col gap-1.5 cursor-pointer hover:border-secondary transition-all" onclick="navigateTo('notifications')">
+      <div class="flex items-center justify-between">
+        <span class="px-2 py-0.5 rounded-full bg-error-container text-error text-[9px] font-bold uppercase">Exam Alert</span>
+        <span class="text-[10px] text-on-surface-variant">Yesterday</span>
+      </div>
+      <h4 class="text-xs font-bold text-primary">Mid Semester Examination (MST-1) datesheet released for 2nd year</h4>
+      <p class="text-[10px] text-on-surface-variant">Exams commence from Oct 14th across all engineering wings. Block 3 designated for CSE students.</p>
+      <div class="flex items-center justify-between pt-1">
+        <span class="text-xs text-primary font-bold inline-flex items-center gap-1 hover:text-secondary">
+          View Notice &amp; Schedule <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+        </span>
+        <span class="text-[9px] text-secondary font-semibold">Ref: CGC/EXAM/24/109</span>
+      </div>
+    </div>
+
+    <!-- Ask AI Bottom Banner -->
+    <div class="p-3 rounded-xl bg-surface-container-high flex items-center justify-between gap-3 border border-surface-container-highest">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="material-symbols-outlined text-[20px] text-secondary">help</span>
+        <div class="min-w-0">
+          <p class="text-xs font-bold text-primary truncate">Have syllabus or exam doubts?</p>
+          <p class="text-[10px] text-on-surface-variant truncate">Ask CGC Copilot AI or reach CSE desk</p>
+        </div>
+      </div>
+      <button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary text-xs font-bold active:scale-95 transition-all flex-shrink-0" onclick="navigateTo('copilot')">
+        Ask AI
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= 2. VIEW: NOTES & BOOKS ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-notes">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-base font-bold text-primary">Notes &amp; Study Vault</h2>
+        <p class="text-[11px] text-on-surface-variant">Verified Faculty Handouts &amp; PTU Topper Notes</p>
+      </div>
+      <button class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-high text-primary text-[11px] font-bold hover:bg-secondary-container" onclick="navigateTo('vault')">
+        <span class="material-symbols-outlined text-[15px]">folder_special</span>
+        Vault (<span id="vaultBadge">2</span>)
+      </button>
+    </div>
+
+    <!-- Search Input -->
+    <div class="relative">
+      <span class="material-symbols-outlined absolute left-3 top-2.5 text-outline text-[18px]">search</span>
+      <input class="w-full bg-surface-container-lowest border border-outline-variant/60 rounded-xl pl-9 pr-8 py-2 text-xs text-primary focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-outline" id="notesSearchBox" oninput="handleNotesSearch()" placeholder="Search OS, DAA, DBMS, PTU papers..." type="text"/>
+      <button class="hidden absolute right-2.5 top-2.5 text-outline" id="clearNotesSearch" onclick="resetNotesSearch()">
+        <span class="material-symbols-outlined text-[16px]">close</span>
+      </button>
+    </div>
+
+    <!-- Subject Filters -->
+    <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
+      <button class="n-filter px-3 py-1 rounded-full text-xs font-bold bg-primary text-on-primary whitespace-nowrap" onclick="filterNotesCategory('ALL', this)">All</button>
+      <button class="n-filter px-3 py-1 rounded-full text-xs font-medium bg-surface-container text-on-surface-variant whitespace-nowrap" onclick="filterNotesCategory('OS', this)">OS</button>
+      <button class="n-filter px-3 py-1 rounded-full text-xs font-medium bg-surface-container text-on-surface-variant whitespace-nowrap" onclick="filterNotesCategory('DAA', this)">DAA</button>
+      <button class="n-filter px-3 py-1 rounded-full text-xs font-medium bg-surface-container text-on-surface-variant whitespace-nowrap" onclick="filterNotesCategory('DBMS', this)">DBMS</button>
+      <button class="n-filter px-3 py-1 rounded-full text-xs font-medium bg-surface-container text-on-surface-variant whitespace-nowrap" onclick="filterNotesCategory('PYQ', this)">PYQs</button>
+    </div>
+
+    <!-- Notes Cards -->
+    <div class="space-y-2.5" id="notesListArea">
+      <!-- Item 1 -->
+      <div class="note-row p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-center justify-between gap-2.5" data-category="OS" data-text="Operating Systems Process Sync Semaphores Deadlocks Unit 3">
+        <div class="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1" onclick="openNoteReader('OS_Unit3_Semaphores.pdf', 'OS: Process Sync & Semaphores')">
+          <div class="w-9 h-9 rounded-lg bg-surface-container-high flex flex-col items-center justify-center text-primary flex-shrink-0">
+            <span class="material-symbols-outlined text-[17px]">picture_as_pdf</span>
+            <span class="text-[8px] font-bold text-secondary">4.2 MB</span>
+          </div>
+          <div class="min-w-0">
+            <span class="text-[8px] font-bold px-1.5 py-0.2 rounded bg-surface-container text-primary">UNIT 3 • FACULTY NOTE</span>
+            <h4 class="text-xs font-bold text-primary truncate mt-0.5">OS: Process Sync &amp; Semaphores</h4>
+            <p class="text-[10px] text-on-surface-variant truncate">Peterson's algorithm, Banker's algorithm &amp; Producer-Consumer</p>
+          </div>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary-container text-primary flex items-center justify-center active:scale-90" onclick="triggerDownload('OS_Unit3_Semaphores.pdf')">
+          <span class="material-symbols-outlined text-[18px]">download</span>
+        </button>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="note-row p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-center justify-between gap-2.5" data-category="DAA" data-text="DAA Dynamic Programming Master Formula Sheet 0/1 Knapsack LCS Matrix Chain Unit 4">
+        <div class="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1" onclick="openNoteReader('DAA_DynamicProgramming.pdf', 'DAA: Dynamic Programming Sheet')">
+          <div class="w-9 h-9 rounded-lg bg-surface-container-high flex flex-col items-center justify-center text-primary flex-shrink-0">
+            <span class="material-symbols-outlined text-[17px]">code</span>
+            <span class="text-[8px] font-bold text-secondary">2.8 MB</span>
+          </div>
+          <div class="min-w-0">
+            <span class="text-[8px] font-bold px-1.5 py-0.2 rounded bg-surface-container text-primary">UNIT 4 • TOPPER NOTE</span>
+            <h4 class="text-xs font-bold text-primary truncate mt-0.5">DAA: Dynamic Programming Formulas</h4>
+            <p class="text-[10px] text-on-surface-variant truncate">0/1 Knapsack, LCS, Matrix Chain &amp; Bellman-Ford proofs</p>
+          </div>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary-container text-primary flex items-center justify-center active:scale-90" onclick="triggerDownload('DAA_DynamicProgramming.pdf')">
+          <span class="material-symbols-outlined text-[18px]">download</span>
+        </button>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="note-row p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-center justify-between gap-2.5" data-category="DBMS" data-text="DBMS SQL Normalization Relational Algebra 1NF 2NF 3NF BCNF Unit 2">
+        <div class="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1" onclick="openNoteReader('DBMS_SQL_Normalization.pdf', 'DBMS: Normalization & SQL')">
+          <div class="w-9 h-9 rounded-lg bg-surface-container-high flex flex-col items-center justify-center text-primary flex-shrink-0">
+            <span class="material-symbols-outlined text-[17px]">database</span>
+            <span class="text-[8px] font-bold text-secondary">5.1 MB</span>
+          </div>
+          <div class="min-w-0">
+            <span class="text-[8px] font-bold px-1.5 py-0.2 rounded bg-surface-container text-primary">UNIT 2 • VIVA READY</span>
+            <h4 class="text-xs font-bold text-primary truncate mt-0.5">DBMS: SQL &amp; Normalization Revision</h4>
+            <p class="text-[10px] text-on-surface-variant truncate">Functional dependencies, 3NF vs BCNF proofs &amp; solved drills</p>
+          </div>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary-container text-primary flex items-center justify-center active:scale-90" onclick="triggerDownload('DBMS_SQL_Normalization.pdf')">
+          <span class="material-symbols-outlined text-[18px]">download</span>
+        </button>
+      </div>
+
+      <!-- Item 4 -->
+      <div class="note-row p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-center justify-between gap-2.5" data-category="PYQ" data-text="PTU 4th Sem Solved PYQ Papers 2021 2022 2023 MST End term">
+        <div class="flex items-center gap-2.5 min-w-0 cursor-pointer flex-1" onclick="openNoteReader('PTU_4thSem_PYQs.pdf', 'PTU 4th Sem Solved PYQ Papers')">
+          <div class="w-9 h-9 rounded-lg bg-secondary-container/20 flex flex-col items-center justify-center text-secondary flex-shrink-0">
+            <span class="material-symbols-outlined text-[17px]">history_edu</span>
+            <span class="text-[8px] font-bold text-secondary">6.4 MB</span>
+          </div>
+          <div class="min-w-0">
+            <span class="text-[8px] font-bold px-1.5 py-0.2 rounded bg-secondary-container text-on-secondary-container">SOLVED PAPERS</span>
+            <h4 class="text-xs font-bold text-primary truncate mt-0.5">PTU 4th Sem Solved PYQ Papers</h4>
+            <p class="text-[10px] text-on-surface-variant truncate">MST 1, MST 2 &amp; End-term answers with grading keys</p>
+          </div>
+        </div>
+        <button class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary-container text-primary flex items-center justify-center active:scale-90" onclick="triggerDownload('PTU_4thSem_PYQs.pdf')">
+          <span class="material-symbols-outlined text-[18px]">download</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. VIEW: CGC COPILOT AI ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-copilot">
+    <div class="p-3.5 rounded-2xl bg-gradient-to-r from-primary to-primary-container text-on-primary shadow-sm flex items-start justify-between">
+      <div>
+        <div class="inline-flex items-center gap-1 px-2 py-0.2 rounded-full bg-secondary-container text-on-secondary-container text-[8px] font-bold uppercase mb-1">
+          <span class="material-symbols-outlined text-[11px]">auto_awesome</span> CGC PTU AI ASSISTANT
+        </div>
+        <h2 class="text-base font-bold">CGC AI Copilot</h2>
+        <p class="text-[11px] text-primary-container-dim text-blue-200">Strictly grounded in I.K. Gujral PTU Syllabus</p>
+      </div>
+      <button class="flex flex-col items-center p-1.5 rounded-xl bg-white/10 hover:bg-white/20 active:scale-95 text-xs border border-white/10" id="voiceToggle" onclick="toggleVoiceAgent()">
+        <span class="material-symbols-outlined text-[20px] text-secondary-container" id="copilotMicIcon">mic</span>
+        <span class="text-[9px] text-on-primary font-bold">Voice Mode</span>
+      </button>
+    </div>
+
+    <!-- Active Voice Waveform Container -->
+    <div class="hidden p-3 rounded-xl bg-primary text-on-primary flex items-center justify-between" id="voiceWaveBox">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+        <span class="text-xs font-bold">Listening to Aarav (CSE 4th Sem)...</span>
+      </div>
+      <div class="flex items-center gap-1 h-5">
+        <span class="w-1 bg-secondary-container rounded-full v-bar"></span>
+        <span class="w-1 bg-secondary-container rounded-full v-bar"></span>
+        <span class="w-1 bg-secondary-container rounded-full v-bar"></span>
+        <span class="w-1 bg-secondary-container rounded-full v-bar"></span>
+      </div>
+    </div>
+
+    <!-- Quick Prompts -->
+    <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
+      <button class="px-2.5 py-1 rounded-lg bg-surface-container-lowest border border-surface-container text-[11px] font-semibold text-primary hover:border-secondary whitespace-nowrap shadow-sm" onclick="sendAiPrompt('Explain Peterson\'s algorithm critical section logic')">
+        Peterson's Algorithm
+      </button>
+      <button class="px-2.5 py-1 rounded-lg bg-surface-container-lowest border border-surface-container text-[11px] font-semibold text-primary hover:border-secondary whitespace-nowrap shadow-sm" onclick="sendAiPrompt('Give top 5 10-mark questions for DAA MST-1')">
+        Top 5 DAA Questions
+      </button>
+      <button class="px-2.5 py-1 rounded-lg bg-surface-container-lowest border border-surface-container text-[11px] font-semibold text-primary hover:border-secondary whitespace-nowrap shadow-sm" onclick="sendAiPrompt('Explain 3NF vs BCNF difference with table example')">
+        3NF vs BCNF
+      </button>
+    </div>
+
+    <!-- Chat Stream -->
+    <div class="flex flex-col gap-2.5 min-h-[260px] max-h-[380px] overflow-y-auto pr-0.5" id="chatArea">
+      <div class="flex items-start gap-2 max-w-[95%]">
+        <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-secondary-container flex-shrink-0 mt-0.5">
+          <span class="material-symbols-outlined text-[15px]">auto_awesome</span>
+        </div>
+        <div class="p-3 rounded-2xl rounded-tl-sm bg-surface-container-lowest border border-surface-container shadow-sm text-xs text-primary leading-relaxed">
+          <p class="font-bold text-[9px] text-secondary uppercase mb-0.5">CGC Academic Assistant</p>
+          Hello Aarav! I have your PTU 4th Semester syllabus (Operating Systems, DAA, DBMS, Maths-IV) fully indexed. Ask any doubt, request solved numericals, or generate practice questions for your MST-1 exam!
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input Form -->
+    <form class="relative flex items-center mt-1" onsubmit="handleChat(event)">
+      <input class="w-full bg-surface-container-lowest border border-outline-variant/60 rounded-full pl-3.5 pr-20 py-2.5 text-xs text-primary focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-outline" id="chatInput" placeholder="Ask your syllabus doubt..." type="text"/>
+      <div class="absolute right-1.5 flex items-center gap-1">
+        <button class="w-7 h-7 rounded-full text-outline hover:text-secondary flex items-center justify-center" onclick="toggleVoiceAgent()" type="button">
+          <span class="material-symbols-outlined text-[17px]">mic</span>
+        </button>
+        <button class="w-7 h-7 rounded-full bg-primary text-on-primary flex items-center justify-center active:scale-90" type="submit">
+          <span class="material-symbols-outlined text-[15px]">send</span>
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ================= 4. VIEW: SYLLABUS CURRICULUM ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-syllabus">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-base font-bold text-primary">PTU Curriculum</h2>
+        <p class="text-[11px] text-on-surface-variant">B.Tech Computer Science &amp; Engineering</p>
+      </div>
+      <button class="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-primary text-on-primary text-[11px] font-bold" onclick="triggerDownload('PTU_CSE_Official_Syllabus_Scheme_2024.pdf')">
+        <span class="material-symbols-outlined text-[15px]">file_download</span> Scheme PDF
+      </button>
+    </div>
+
+    <!-- Sem Switcher -->
+    <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
+      <button class="px-3 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant">Sem 1</button>
+      <button class="px-3 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant">Sem 2</button>
+      <button class="px-3 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant">Sem 3</button>
+      <button class="px-3 py-1 rounded-full text-xs font-bold bg-primary text-on-primary">Sem 4 (Current)</button>
+      <button class="px-3 py-1 rounded-full text-xs font-semibold bg-surface-container text-on-surface-variant">Sem 5</button>
+    </div>
+
+    <!-- Subject Accordions -->
+    <div class="space-y-2">
+      <!-- OS -->
+      <div class="rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm overflow-hidden">
+        <div class="p-3 flex items-center justify-between cursor-pointer hover:bg-surface-container-low" onclick="toggleAccordion('acc-os')">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-primary-container text-secondary-container flex items-center justify-center font-bold text-[10px]">
+              BTCS401
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-primary">Operating Systems</h4>
+              <p class="text-[10px] text-on-surface-variant">Credits: 4 • 65% Completed</p>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-outline" id="acc-os-icon">expand_more</span>
+        </div>
+        <div class="hidden p-3 border-t border-surface-container bg-surface-container-low flex flex-col gap-2 text-xs" id="acc-os">
+          <div class="w-full h-1.5 rounded-full bg-surface-container">
+            <div class="h-1.5 rounded-full bg-secondary-container" style="width: 65%"></div>
+          </div>
+          <p class="text-[11px] text-primary"><strong>Unit 1:</strong> System Calls &amp; Architecture (Completed)</p>
+          <p class="text-[11px] text-primary"><strong>Unit 2:</strong> Process Scheduling &amp; Threads (Completed)</p>
+          <p class="text-[11px] text-secondary font-semibold"><strong>Unit 3:</strong> Process Sync &amp; Semaphores (In Progress)</p>
+          <p class="text-[11px] text-outline"><strong>Unit 4:</strong> Memory Management &amp; Paging (Pending)</p>
+        </div>
+      </div>
+
+      <!-- DAA -->
+      <div class="rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm overflow-hidden">
+        <div class="p-3 flex items-center justify-between cursor-pointer hover:bg-surface-container-low" onclick="toggleAccordion('acc-daa')">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-primary-container text-secondary-container flex items-center justify-center font-bold text-[10px]">
+              BTCS402
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-primary">Design &amp; Analysis of Algorithms</h4>
+              <p class="text-[10px] text-on-surface-variant">Credits: 4 • 58% Completed</p>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-outline" id="acc-daa-icon">expand_more</span>
+        </div>
+        <div class="hidden p-3 border-t border-surface-container bg-surface-container-low flex flex-col gap-2 text-xs" id="acc-daa">
+          <div class="w-full h-1.5 rounded-full bg-surface-container">
+            <div class="h-1.5 rounded-full bg-secondary-container" style="width: 58%"></div>
+          </div>
+          <p class="text-[11px] text-primary"><strong>Unit 1:</strong> Asymptotic Notations &amp; Recurrences (Completed)</p>
+          <p class="text-[11px] text-primary"><strong>Unit 2:</strong> Divide &amp; Conquer, Greedy Methods (Completed)</p>
+          <p class="text-[11px] text-secondary font-semibold"><strong>Unit 3:</strong> Dynamic Programming &amp; Graphs (In Progress)</p>
+          <p class="text-[11px] text-outline"><strong>Unit 4:</strong> Backtracking &amp; NP Completeness (Pending)</p>
+        </div>
+      </div>
+
+      <!-- DBMS -->
+      <div class="rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm overflow-hidden">
+        <div class="p-3 flex items-center justify-between cursor-pointer hover:bg-surface-container-low" onclick="toggleAccordion('acc-dbms')">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-primary-container text-secondary-container flex items-center justify-center font-bold text-[10px]">
+              BTCS403
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-primary">Database Management Systems</h4>
+              <p class="text-[10px] text-on-surface-variant">Credits: 3 • 72% Completed</p>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-outline" id="acc-dbms-icon">expand_more</span>
+        </div>
+        <div class="hidden p-3 border-t border-surface-container bg-surface-container-low flex flex-col gap-2 text-xs" id="acc-dbms">
+          <div class="w-full h-1.5 rounded-full bg-surface-container">
+            <div class="h-1.5 rounded-full bg-secondary-container" style="width: 72%"></div>
+          </div>
+          <p class="text-[11px] text-primary"><strong>Unit 1:</strong> ER Diagrams &amp; Relational Algebra (Completed)</p>
+          <p class="text-[11px] text-primary"><strong>Unit 2:</strong> Functional Dependencies &amp; Normalization (Completed)</p>
+          <p class="text-[11px] text-secondary font-semibold"><strong>Unit 3:</strong> Transactions &amp; Concurrency Control (In Progress)</p>
+          <p class="text-[11px] text-outline"><strong>Unit 4:</strong> NoSQL &amp; Recovery Systems (Pending)</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 5. VIEW: ATTENDANCE & BUNK SIMULATOR ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-attendance">
+    <!-- Standing Header -->
+    <div class="p-3.5 rounded-2xl bg-gradient-to-br from-primary-container to-primary text-on-primary shadow-sm flex items-center justify-between">
+      <div>
+        <span class="text-[9px] font-bold text-secondary-container uppercase">Overall Attendance</span>
+        <h2 class="text-2xl font-black mt-0.5" id="overallAttText">88.2%</h2>
+        <p class="text-[11px] text-on-primary-container">PTU Mandatory: Minimum 75.0%</p>
+      </div>
+      <div class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs flex items-center gap-1 border border-emerald-400/30">
+        <span class="material-symbols-outlined text-[15px]">verified</span> Safe Zone
+      </div>
+    </div>
+
+    <!-- Safe Bunk Calculator -->
+    <div class="p-3 rounded-xl bg-surface-container-lowest border-2 border-secondary-container/40 shadow-sm flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-secondary text-[18px]">calculate</span>
+          <h3 class="text-xs font-bold text-primary uppercase">Interactive Bunk Simulator</h3>
+        </div>
+        <button class="text-[10px] text-secondary font-bold hover:underline" onclick="resetBunk()">Reset</button>
+      </div>
+      <p class="text-[11px] text-on-surface-variant">Simulate missing future classes to calculate safety margin:</p>
+
+      <div class="grid grid-cols-2 gap-2">
+        <div class="p-2 rounded-lg bg-surface-container-low flex flex-col items-center">
+          <span class="text-[9px] text-outline font-semibold">Simulated Bunks</span>
+          <div class="flex items-center gap-3 mt-1">
+            <button class="w-6 h-6 rounded-full bg-surface-container font-bold text-primary active:scale-90" onclick="adjustBunk(-1)">-</button>
+            <span class="text-sm font-bold text-primary" id="bunkCount">0</span>
+            <button class="w-6 h-6 rounded-full bg-surface-container font-bold text-primary active:scale-90" onclick="adjustBunk(1)">+</button>
+          </div>
+        </div>
+        <div class="p-2 rounded-lg bg-surface-container-low flex flex-col items-center">
+          <span class="text-[9px] text-outline font-semibold">New Percentage</span>
+          <span class="text-base font-extrabold text-primary mt-1" id="simulatedAtt">88.2%</span>
+        </div>
+      </div>
+      <div class="text-[11px] p-2 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-200" id="bunkAdvice">
+        You can safely miss up to <strong>7 more lectures</strong> across subjects and remain above 75%.
+      </div>
+    </div>
+
+    <!-- Subject Wise Breakdown -->
+    <div class="space-y-2">
+      <h4 class="text-[11px] font-bold uppercase tracking-wider text-outline">Subject Wise Breakdown</h4>
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col gap-1">
+        <div class="flex justify-between text-xs font-bold text-primary">
+          <span>Operating Systems (BTCS-401)</span>
+          <span class="text-emerald-600">92% (34/37)</span>
+        </div>
+        <div class="w-full h-1.5 rounded-full bg-surface-container">
+          <div class="h-1.5 rounded-full bg-emerald-500" style="width: 92%"></div>
+        </div>
+        <span class="text-[9px] text-on-surface-variant">Can safely miss 4 classes</span>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col gap-1">
+        <div class="flex justify-between text-xs font-bold text-primary">
+          <span>Design &amp; Analysis of Algo (BTCS-402)</span>
+          <span class="text-emerald-600">86% (30/35)</span>
+        </div>
+        <div class="w-full h-1.5 rounded-full bg-surface-container">
+          <div class="h-1.5 rounded-full bg-emerald-500" style="width: 86%"></div>
+        </div>
+        <span class="text-[9px] text-on-surface-variant">Can safely miss 3 classes</span>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col gap-1">
+        <div class="flex justify-between text-xs font-bold text-primary">
+          <span>Database Management Systems (BTCS-403)</span>
+          <span class="text-emerald-600">88% (29/33)</span>
+        </div>
+        <div class="w-full h-1.5 rounded-full bg-surface-container">
+          <div class="h-1.5 rounded-full bg-emerald-500" style="width: 88%"></div>
+        </div>
+        <span class="text-[9px] text-on-surface-variant">Can safely miss 3 classes</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6. VIEW: RESULTS & TRANSCRIPT ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-results">
+    <div class="p-3.5 rounded-2xl bg-primary-container text-on-primary shadow-sm flex items-center justify-between">
+      <div>
+        <span class="text-[9px] font-bold text-secondary-container uppercase">Cumulative GPA</span>
+        <h2 class="text-3xl font-extrabold mt-0.5">8.64</h2>
+        <p class="text-[11px] text-on-primary-container">64 Total PTU Credits • 0 Backlogs</p>
+      </div>
+      <div class="text-right">
+        <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-[9px] uppercase">First Class</span>
+        <p class="text-[10px] text-blue-200 mt-1">Batch Rank: Top 8%</p>
+      </div>
+    </div>
+
+    <!-- SGPA Chart -->
+    <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col gap-2">
+      <h3 class="text-xs font-bold text-primary uppercase">Semester SGPA Trend</h3>
+      <div class="flex items-end justify-around h-28 pt-2 border-b border-surface-container">
+        <div class="flex flex-col items-center gap-1">
+          <span class="text-[9px] font-bold text-primary">8.40</span>
+          <div class="w-8 rounded-t bg-surface-container-high" style="height: 65px;"></div>
+          <span class="text-[9px] text-outline">Sem 1</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <span class="text-[9px] font-bold text-primary">8.52</span>
+          <div class="w-8 rounded-t bg-surface-container-high" style="height: 70px;"></div>
+          <span class="text-[9px] text-outline">Sem 2</span>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <span class="text-[9px] font-bold text-secondary">8.95</span>
+          <div class="w-8 rounded-t bg-secondary-container" style="height: 82px;"></div>
+          <span class="text-[9px] font-bold text-primary">Sem 3</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 opacity-50">
+          <span class="text-[9px] text-outline">Active</span>
+          <div class="w-8 rounded-t border-2 border-dashed border-outline-variant" style="height: 72px;"></div>
+          <span class="text-[9px] text-outline">Sem 4</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detailed Grades -->
+    <div class="space-y-1.5">
+      <h4 class="text-[11px] font-bold uppercase tracking-wider text-outline">Sem 3 Confirmed Grades</h4>
+      <div class="p-2 rounded-lg bg-surface-container-lowest border border-surface-container flex items-center justify-between text-xs">
+        <div>
+          <p class="font-bold text-primary">Data Structures &amp; Algorithms</p>
+          <span class="text-[10px] text-on-surface-variant">BTCS-301 • 4 Credits</span>
+        </div>
+        <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-xs">A+</span>
+      </div>
+      <div class="p-2 rounded-lg bg-surface-container-lowest border border-surface-container flex items-center justify-between text-xs">
+        <div>
+          <p class="font-bold text-primary">Object Oriented Programming (Java)</p>
+          <span class="text-[10px] text-on-surface-variant">BTCS-302 • 4 Credits</span>
+        </div>
+        <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold text-xs">O (Outstanding)</span>
+      </div>
+      <div class="p-2 rounded-lg bg-surface-container-lowest border border-surface-container flex items-center justify-between text-xs">
+        <div>
+          <p class="font-bold text-primary">Digital Electronics</p>
+          <span class="text-[10px] text-on-surface-variant">BTEC-301 • 3 Credits</span>
+        </div>
+        <span class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-bold text-xs">A</span>
+      </div>
+    </div>
+
+    <button class="w-full py-2.5 rounded-xl bg-primary text-on-primary text-xs font-bold active:scale-95 transition-all flex items-center justify-center gap-1.5 shadow-sm mt-1" onclick="triggerDownload('Aarav_Sharma_Official_PTU_Transcript.pdf')">
+      <span class="material-symbols-outlined text-[15px]">description</span> Download Provisional DMC (PDF)
+    </button>
+  </section>
+
+  <!-- ================= 7. VIEW: TIMETABLE ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-timetable">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-base font-bold text-primary">Class Schedule</h2>
+        <p class="text-[11px] text-on-surface-variant">B.Tech CSE Sem 4 (Sec B) • Block 3</p>
+      </div>
+      <button class="px-2.5 py-1 rounded-lg bg-surface-container text-primary font-bold text-xs flex items-center gap-1" onclick="showToast('Timetable synced with phone calendar!', 'event')">
+        <span class="material-symbols-outlined text-[15px]">sync</span> Sync
+      </button>
+    </div>
+
+    <!-- Day Selector -->
+    <div class="flex items-center gap-1 overflow-x-auto pb-1">
+      <button class="px-3 py-1 rounded-xl text-xs font-semibold bg-surface-container text-on-surface-variant" onclick="switchDay('MON', this)">Mon</button>
+      <button class="px-3 py-1 rounded-xl text-xs font-semibold bg-surface-container text-on-surface-variant" onclick="switchDay('TUE', this)">Tue</button>
+      <button class="px-3 py-1 rounded-xl text-xs font-semibold bg-surface-container text-on-surface-variant" onclick="switchDay('WED', this)">Wed</button>
+      <button class="px-3 py-1 rounded-xl text-xs font-bold bg-primary text-on-primary" onclick="switchDay('THU', this)">Thu (Today)</button>
+      <button class="px-3 py-1 rounded-xl text-xs font-semibold bg-surface-container text-on-surface-variant" onclick="switchDay('FRI', this)">Fri</button>
+    </div>
+
+    <!-- Slots -->
+    <div class="space-y-2">
+      <div class="p-2.5 rounded-xl bg-surface-container-low flex items-start gap-2.5 opacity-60">
+        <span class="text-xs font-bold text-outline">09:00 AM</span>
+        <div>
+          <h4 class="font-bold text-xs text-primary">Database Systems Tutorial</h4>
+          <p class="text-[10px] text-on-surface-variant">Block 3 • Rm 304 • Prof. Rajesh Kumar</p>
+          <span class="text-[8px] font-bold text-emerald-800 bg-emerald-100 px-1 rounded">Completed</span>
+        </div>
+      </div>
+
+      <div class="p-3 rounded-xl bg-secondary-container/15 border-2 border-secondary-container flex items-start justify-between gap-2 shadow-sm">
+        <div class="flex items-start gap-2.5">
+          <span class="text-xs font-bold text-secondary">11:00 AM</span>
+          <div>
+            <span class="text-[8px] font-bold uppercase bg-secondary-container text-on-secondary-container px-1.5 py-0.2 rounded">Next Class</span>
+            <h4 class="font-bold text-xs text-primary mt-0.5">Operating Systems Lecture</h4>
+            <p class="text-[10px] text-on-surface-variant">Block 3 • Rm 402 • Dr. Preetinder Kaur</p>
+          </div>
+        </div>
+        <button class="p-1.5 rounded-lg bg-surface-container text-primary" onclick="showToast('Reminder set for 11:00 AM OS Lecture', 'alarm')">
+          <span class="material-symbols-outlined text-[17px]">notifications_active</span>
+        </button>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container flex items-start justify-between gap-2">
+        <div class="flex items-start gap-2.5">
+          <span class="text-xs font-bold text-outline">01:30 PM</span>
+          <div>
+            <h4 class="font-bold text-xs text-primary">DAA Practical Lab (Batch B1)</h4>
+            <p class="text-[10px] text-on-surface-variant">Central Computing Center • Lab 4</p>
+          </div>
+        </div>
+        <button class="p-1.5 rounded-lg text-outline" onclick="showToast('Reminder set for 01:30 PM DAA Lab', 'alarm')">
+          <span class="material-symbols-outlined text-[17px]">notification_add</span>
+        </button>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container flex items-start justify-between gap-2">
+        <div class="flex items-start gap-2.5">
+          <span class="text-xs font-bold text-outline">03:30 PM</span>
+          <div>
+            <h4 class="font-bold text-xs text-primary">Industry Mentorship &amp; Aptitude</h4>
+            <p class="text-[10px] text-on-surface-variant">Seminar Hall 2 • Guest Speaker Amazon</p>
+          </div>
+        </div>
+        <button class="p-1.5 rounded-lg text-outline" onclick="showToast('Reminder set for 03:30 PM Amazon session', 'alarm')">
+          <span class="material-symbols-outlined text-[17px]">notification_add</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 8. VIEW: ACADEMIC MOBILITY ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-academic-mobility">
+    <div class="p-3.5 rounded-2xl bg-gradient-to-br from-primary to-primary-container text-on-primary shadow-sm flex flex-col gap-1">
+      <span class="text-[9px] font-bold text-secondary-container uppercase">NEP 2020 Mobility</span>
+      <h2 class="text-base font-bold">Academic Bank of Credits (ABC)</h2>
+      <p class="text-[11px] text-blue-200">Credit transfer across CGC Landran, Jhanjeri &amp; SWAYAM/NPTEL portals.</p>
+    </div>
+
+    <!-- ABC Card -->
+    <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col gap-2">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-[9px] text-outline uppercase font-semibold">DigiLocker ABC ID</span>
+          <p class="text-xs font-bold text-primary font-mono tracking-wider">7894-3921-9901</p>
+        </div>
+        <button class="px-2 py-1 rounded bg-surface-container text-primary text-[10px] font-bold" onclick="showToast('ABC ID copied to clipboard!', 'content_copy')">Copy ID</button>
+      </div>
+      <div class="grid grid-cols-2 gap-2 pt-2 border-t border-surface-container text-xs">
+        <div>
+          <span class="text-[9px] text-outline">Transferred Credits</span>
+          <p class="font-bold text-primary">64.0 / 160 Required</p>
+        </div>
+        <div>
+          <span class="text-[9px] text-outline">NPTEL Recognized</span>
+          <p class="font-bold text-emerald-600">8 Credits Verified</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pathways -->
+    <div class="space-y-2">
+      <h4 class="text-[11px] font-bold uppercase tracking-wider text-outline">Active Transfer Pathways</h4>
+      <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container flex flex-col gap-1">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-primary">CGC Landran &harr; Jhanjeri Semester Exchange</span>
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 font-bold">Eligible</span>
+        </div>
+        <p class="text-[10px] text-on-surface-variant">Eligible for elective robotics lab courses at CGC Jhanjeri Tech Tower for Sem 5.</p>
+        <button class="text-xs font-bold text-secondary inline-flex items-center gap-1 mt-0.5 hover:underline" onclick="showToast('Mobility form initiated for Sem 5!', 'swap_horiz')">
+          Apply for Sem 5 Mobility &rarr;
+        </button>
+      </div>
+
+      <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container flex flex-col gap-1">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-primary">SWAYAM / NPTEL MOOC Credit Transfer</span>
+          <span class="text-[9px] px-1.5 py-0.2 rounded bg-surface-container text-primary font-bold">Open</span>
+        </div>
+        <p class="text-[10px] text-on-surface-variant">Map completed 12-week IIT Kharagpur 'Cloud Computing' certificate to replace Open Elective-1.</p>
+        <button class="text-xs font-bold text-secondary inline-flex items-center gap-1 mt-0.5 hover:underline" onclick="showToast('NPTEL certificate submitted to Dean Academics!', 'task_alt')">
+          Submit NPTEL Certificate &rarr;
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 9. VIEW: NOTIFICATIONS ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-notifications">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-base font-bold text-primary">Official Notice Board</h2>
+        <p class="text-[11px] text-on-surface-variant">Circulars from Landran Campus</p>
+      </div>
+      <button class="text-xs font-bold text-secondary hover:underline" onclick="clearNotifs()">Mark All Read</button>
+    </div>
+
+    <div class="space-y-2">
+      <!-- Notice 1 -->
+      <div class="p-3 rounded-xl bg-error-container/20 border border-error-container/50 flex flex-col gap-1 shadow-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-[8px] font-bold text-error uppercase px-1.5 py-0.2 rounded bg-error-container">Examination Branch</span>
+          <span class="text-[9px] text-on-surface-variant">Yesterday</span>
+        </div>
+        <h4 class="font-bold text-xs text-primary">Mid Semester Examination (MST-1) Date Sheet Released</h4>
+        <p class="text-[10px] text-on-surface-variant">MST exams commence Oct 14th across all engineering wings. Block 3 designated for CSE students.</p>
+        <div class="pt-1 flex items-center justify-between">
+          <button class="text-xs font-bold text-primary inline-flex items-center gap-1 hover:text-secondary" onclick="triggerDownload('MST1_Datesheet_Landran_2024.pdf')">
+            Download PDF Schedule <span class="material-symbols-outlined text-[14px]">download</span>
+          </button>
+          <span class="text-[9px] text-secondary font-semibold">Ref: CGC/EXAM/24/109</span>
+        </div>
+      </div>
+
+      <!-- Notice 2 -->
+      <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container flex flex-col gap-1 shadow-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-[8px] font-bold text-secondary uppercase px-1.5 py-0.2 rounded bg-secondary-container/30">CRC Placement Cell</span>
+          <span class="text-[9px] text-on-surface-variant">3 days ago</span>
+        </div>
+        <h4 class="font-bold text-xs text-primary">Pre-Placement Coding Assessment &amp; Amazon Hackathon</h4>
+        <p class="text-[10px] text-on-surface-variant">Mandatory orientation session for CSE/IT students in Audi 1 on Saturday 10:00 AM.</p>
+        <span class="text-[9px] text-secondary font-semibold">Ref: CGC/CRC/24/048</span>
+      </div>
+
+      <!-- Notice 3 -->
+      <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container flex flex-col gap-1 shadow-sm">
+        <div class="flex items-center justify-between">
+          <span class="text-[8px] font-bold text-primary uppercase px-1.5 py-0.2 rounded bg-surface-container">Student Council</span>
+          <span class="text-[9px] text-on-surface-variant">5 days ago</span>
+        </div>
+        <h4 class="font-bold text-xs text-primary">Parivartan 2024 Tech Fest Registrations Open</h4>
+        <p class="text-[10px] text-on-surface-variant">Join organizing committees for code clash, robotics arena and stage management.</p>
+        <span class="text-[9px] text-secondary font-semibold">Ref: CGC/CLUBS/24/014</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 10. VIEW: PROFILE ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-profile">
+    <!-- Physical ID Card Look -->
+    <div class="p-4 rounded-2xl bg-gradient-to-br from-primary via-primary-container to-primary text-on-primary shadow-lg border border-white/10 flex flex-col gap-2.5">
+      <div class="flex items-center justify-between border-b border-white/10 pb-2">
+        <div class="flex items-center gap-1.5">
+          <img alt="CGC" class="h-5 w-auto" src="https://lh3.googleusercontent.com/aida/AEtjO1X4optcITPddOZqk-Lg82pxc7PUiwdylTKlr1pOEn7zrfRUAr-HkTB8VRNIxgQDjCYtSi0lTp8m5mIgIOWvNiEDYP-CpDOeuplWYqpHYqpesuitSTrEoZb18J2DdV0dbpOnRbAMMMFS0YjaXz0IE1udzHVcXs7Hb5iFX02AdMfytl2Hy2ZcwhuzYgIuTyNGwyO6NQVHh-QS44aXeZ_pg45AVZ0PlJJOxjjDWnOhW777Q_9yEVCmOdIwOk"/>
+          <span class="text-[10px] font-bold tracking-wider">CGC STUDENT IDENTITY CARD</span>
+        </div>
+        <span class="px-2 py-0.2 rounded-full bg-secondary-container text-on-secondary-container text-[8px] font-bold">VALID 2027</span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <img alt="Aarav" class="w-14 h-14 rounded-xl object-cover ring-2 ring-secondary-container flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1U07Q_ajkWWPLzKZJQbMb1QJp8FkzU2FbjYHR8VZ4sTvNWnGcXcSrfHIGfkQNeYZBGpBbhE1o5WAL_f5T0bCKJthyw_Lz31RbhyK_kNG5X1Ksp5BfBydvUqHCvQ_ikSJEIcgL68ANKE5YzxroQK0N4wzR-KSLqQ2gXbQkIMdKrhYSz3LBXTduZF68iy7Fj2ZX_tuozp4LYYerlx-1GIZ0wPgWAAIYaanu_7JElXHGjUjFVLPrgaWdMSx34"/>
+        <div class="min-w-0">
+          <h3 class="text-sm font-bold text-on-primary truncate">Aarav Sharma</h3>
+          <p class="text-[11px] text-blue-200">URN: 2104928 • B.Tech CSE</p>
+          <p class="text-[10px] text-on-primary-container">Campus: Landran (Mohali)</p>
+          <span class="inline-block mt-0.5 text-[8px] font-bold bg-white/20 text-on-primary px-1.5 rounded">Sem 4 • Sec B</span>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-white/10 flex items-center justify-between text-[9px] font-mono text-blue-200">
+        <span>|||| ||| ||||| || |||||| |||| 2104928</span>
+        <span class="font-bold text-secondary-container">PTU Reg: 2104928001</span>
+      </div>
+    </div>
+
+    <!-- Info Sheet -->
+    <div class="p-3 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex flex-col gap-1.5 text-xs">
+      <h4 class="font-bold text-primary text-[10px] uppercase text-outline">Mentorship &amp; Residence</h4>
+      <div class="flex justify-between py-1 border-b border-surface-container">
+        <span class="text-on-surface-variant">Faculty Mentor</span>
+        <span class="font-bold text-primary">Dr. Preetinder Kaur</span>
+      </div>
+      <div class="flex justify-between py-1 border-b border-surface-container">
+        <span class="text-on-surface-variant">Hostel Residence</span>
+        <span class="font-bold text-primary">Shivalik Boys Hostel (Rm 208)</span>
+      </div>
+      <div class="flex justify-between py-1">
+        <span class="text-on-surface-variant">Registered Bus</span>
+        <span class="font-bold text-primary">Route #14 (Sector 35 Chd)</span>
+      </div>
+    </div>
+
+    <button class="w-full py-2.5 rounded-xl bg-primary text-on-primary text-xs font-bold active:scale-95 transition-all shadow-sm" onclick="showToast('Digital ID card saved to phone wallet!', 'badge')">
+      Add ID to Google / Apple Wallet
+    </button>
+  </section>
+
+  <!-- ================= 11. VIEW: CAMPUS INFORMATION ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-campus-info">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-base font-bold text-primary">Campus Guide &amp; Directory</h2>
+        <p class="text-[11px] text-on-surface-variant">CGC Landran &amp; Jhanjeri Campuses</p>
+      </div>
+      <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[9px] font-bold">Mohali Quad</span>
+    </div>
+
+    <!-- Directory Items -->
+    <div class="space-y-2">
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-start gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">apartment</span>
+        </div>
+        <div class="min-w-0 text-xs">
+          <h4 class="font-bold text-primary">Block 3 - Computer Science Engineering</h4>
+          <p class="text-on-surface-variant text-[10px]">Dean Office: Ground Floor • CSE Labs: 3rd &amp; 4th Floor</p>
+          <span class="text-[9px] text-secondary font-semibold">Helpdesk: +91 172-3984200 (Ext 104)</span>
+        </div>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-start gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">menu_book</span>
+        </div>
+        <div class="min-w-0 text-xs">
+          <h4 class="font-bold text-primary">Central Knowledge Resource Library</h4>
+          <p class="text-on-surface-variant text-[10px]">Timings: Mon-Sat 08:00 AM - 09:00 PM • Digital Lab 24/7</p>
+          <span class="text-[9px] text-emerald-600 font-semibold">Over 120,000+ Printed &amp; IEEE E-Journals</span>
+        </div>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-start gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">directions_bus</span>
+        </div>
+        <div class="min-w-0 text-xs">
+          <h4 class="font-bold text-primary">Transport &amp; Bus Fleet Desk</h4>
+          <p class="text-on-surface-variant text-[10px]">Covering Chandigarh, Mohali, Panchkula, Kharar &amp; Ambala</p>
+          <button class="text-[10px] font-bold text-secondary hover:underline mt-0.5" onclick="triggerDownload('CGC_Mohali_Bus_Routes_2024.pdf')">Download Bus Routes &amp; Timings PDF &rarr;</button>
+        </div>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container shadow-sm flex items-start gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary flex-shrink-0">
+          <span class="material-symbols-outlined text-[18px]">medical_services</span>
+        </div>
+        <div class="min-w-0 text-xs">
+          <h4 class="font-bold text-primary">Campus Dispensary &amp; Ambulance</h4>
+          <p class="text-on-surface-variant text-[10px]">24x7 Resident Doctor &amp; Pharmacy near Block 1</p>
+          <span class="text-[9px] text-error font-bold">Emergency Hotline: +91 172-3984299</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 12. VIEW: OFFLINE VAULT ================= -->
+  <section class="app-view hidden flex flex-col w-full px-4 pt-3 pb-6 gap-3" id="view-vault">
+    <div class="flex items-center justify-between">
+      <div>
+        <h2 class="text-base font-bold text-primary">Offline Study Vault</h2>
+        <p class="text-[11px] text-on-surface-variant">Cached materials accessible without Wi-Fi</p>
+      </div>
+      <span class="px-2 py-0.5 rounded bg-surface-container text-xs font-semibold text-primary">Storage: 9.5 MB</span>
+    </div>
+
+    <div class="space-y-2">
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="material-symbols-outlined text-primary text-[20px]">picture_as_pdf</span>
+          <div class="min-w-0">
+            <h4 class="font-bold text-xs text-primary truncate">OS_Unit3_Semaphores.pdf</h4>
+            <span class="text-[9px] text-secondary font-semibold">4.2 MB • Saved Offline</span>
+          </div>
+        </div>
+        <button class="px-2.5 py-1 rounded-lg bg-primary text-on-primary text-xs font-bold" onclick="openNoteReader('OS_Unit3_Semaphores.pdf', 'OS: Process Sync & Semaphores')">Open</button>
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-surface-container-lowest border border-surface-container flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="material-symbols-outlined text-primary text-[20px]">picture_as_pdf</span>
+          <div class="min-w-0">
+            <h4 class="font-bold text-xs text-primary truncate">MST1_Datesheet_Landran_2024.pdf</h4>
+            <span class="text-[9px] text-secondary font-semibold">1.1 MB • Saved Offline</span>
+          </div>
+        </div>
+        <button class="px-2.5 py-1 rounded-lg bg-primary text-on-primary text-xs font-bold" onclick="openNoteReader('MST1_Datesheet_Landran_2024.pdf', 'MST-1 Examination Datesheet')">Open</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Persistent Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-40 pb-safe bg-surface/95 backdrop-blur-xl border-t border-surface-container shadow-md">
+  <div class="flex justify-around items-center h-14 px-1">
+    <button class="flex-1 flex flex-col items-center justify-center h-full text-primary font-bold transition-colors" id="tab-dashboard" onclick="navigateTo('dashboard')">
+      <span class="material-symbols-outlined text-[22px]">home</span>
+      <span class="text-[10px] mt-0.5">Dashboard</span>
+    </button>
+    <button class="flex-1 flex flex-col items-center justify-center h-full text-on-surface-variant hover:text-primary transition-colors" id="tab-notes" onclick="navigateTo('notes')">
+      <span class="material-symbols-outlined text-[22px]">menu_book</span>
+      <span class="text-[10px] mt-0.5">Notes &amp; Books</span>
+    </button>
+    <button class="flex-1 flex flex-col items-center justify-center h-full text-on-surface-variant hover:text-primary transition-colors" id="tab-copilot" onclick="navigateTo('copilot')">
+      <div class="relative flex items-center justify-center">
+        <span class="material-symbols-outlined text-[22px] text-secondary">auto_awesome</span>
+      </div>
+      <span class="text-[10px] mt-0.5">CGC Copilot</span>
+    </button>
+    <button class="flex-1 flex flex-col items-center justify-center h-full text-on-surface-variant hover:text-primary transition-colors" id="tab-syllabus" onclick="navigateTo('syllabus')">
+      <span class="material-symbols-outlined text-[22px]">assignment</span>
+      <span class="text-[10px] mt-0.5">Syllabus</span>
+    </button>
+  </div>
+</nav>
+
+<!-- In-App Note Reader Modal -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" id="noteReaderModal">
+  <div class="w-full max-w-sm bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+    <div class="p-3 bg-primary text-on-primary flex items-center justify-between">
+      <div class="flex items-center gap-2 min-w-0">
+        <span class="material-symbols-outlined text-secondary-container text-[20px]">picture_as_pdf</span>
+        <div class="min-w-0">
+          <h3 class="text-xs font-bold truncate" id="readerTitle">Document Preview</h3>
+          <span class="text-[9px] text-blue-200" id="readerFilename">note.pdf</span>
+        </div>
+      </div>
+      <button class="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-on-primary" onclick="closeModal('noteReaderModal')">
+        <span class="material-symbols-outlined text-[17px]">close</span>
+      </button>
+    </div>
+    <div class="p-3.5 overflow-y-auto flex flex-col gap-2.5 text-xs text-on-surface">
+      <div class="p-2.5 rounded-lg bg-surface-container-low border border-surface-container text-[11px] text-primary">
+        <span class="font-bold text-secondary uppercase block mb-0.5">CGC Verified Handout</span>
+        Includes official faculty derivations and PTU repeated questions breakdown.
+      </div>
+      <div class="space-y-1.5 font-mono text-[10px] p-2 bg-surface-container-lowest border rounded">
+        <p class="font-bold text-primary font-sans text-xs">Section 3.1: Critical Section Problem</p>
+        <p>Requirements: Mutual Exclusion, Progress, Bounded Waiting.</p>
+        <p class="text-secondary">wait(S) { while (S &lt;= 0); S--; }</p>
+        <p class="text-secondary">signal(S) { S++; }</p>
+      </div>
+    </div>
+    <div class="p-3 bg-surface-container flex items-center justify-between">
+      <button class="text-xs font-bold text-secondary" onclick="showToast('Document bookmarked!', 'bookmark')">Bookmark</button>
+      <button class="px-3 py-1.5 rounded-xl bg-primary text-on-primary text-xs font-bold active:scale-95" onclick="triggerDownload('Document_Downloaded.pdf')">
+        Save Offline
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Solved PYQs Drawer Modal -->
+<div class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4" id="pyqDrawer">
+  <div class="w-full sm:max-w-sm bg-surface-container-lowest rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+    <div class="p-3 bg-primary text-on-primary flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary-container text-[20px]">history_edu</span>
+        <h3 class="text-xs font-bold">PTU Solved PYQ Archive</h3>
+      </div>
+      <button class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-on-primary" onclick="closeModal('pyqDrawer')">
+        <span class="material-symbols-outlined text-[17px]">close</span>
+      </button>
+    </div>
+    <div class="p-3 overflow-y-auto space-y-2">
+      <div class="p-2.5 rounded-xl bg-surface-container-low flex items-center justify-between">
+        <div>
+          <h4 class="text-xs font-bold text-primary">OS BTCS-401 (Dec 2023 Solved)</h4>
+          <p class="text-[10px] text-on-surface-variant">Section A, B &amp; C with Marking Scheme</p>
+        </div>
+        <button class="p-1.5 rounded bg-surface-container text-primary" onclick="triggerDownload('OS_Dec2023_Solved_PTU.pdf')">
+          <span class="material-symbols-outlined text-[16px]">download</span>
+        </button>
+      </div>
+      <div class="p-2.5 rounded-xl bg-surface-container-low flex items-center justify-between">
+        <div>
+          <h4 class="text-xs font-bold text-primary">DAA BTCS-402 (May 2023 Solved)</h4>
+          <p class="text-[10px] text-on-surface-variant">Recurrence &amp; Dynamic Programming proofs</p>
+        </div>
+        <button class="p-1.5 rounded bg-surface-container text-primary" onclick="triggerDownload('DAA_May2023_Solved_PTU.pdf')">
+          <span class="material-symbols-outlined text-[16px]">download</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Master Repo Drawer Modal -->
+<div class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4" id="masterRepoDrawer">
+  <div class="w-full sm:max-w-sm bg-surface-container-lowest rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+    <div class="p-3 bg-primary-container text-on-primary flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-secondary-container text-[20px]">folder_special</span>
+        <h3 class="text-xs font-bold">CSE 4th Sem Master Repository</h3>
+      </div>
+      <button class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-on-primary" onclick="closeModal('masterRepoDrawer')">
+        <span class="material-symbols-outlined text-[17px]">close</span>
+      </button>
+    </div>
+    <div class="p-3 overflow-y-auto space-y-2">
+      <div class="p-2.5 rounded-xl bg-surface-container-low flex items-center justify-between">
+        <div>
+          <h4 class="text-xs font-bold text-primary">OS Lab Manual (Ubuntu Linux)</h4>
+          <p class="text-[10px] text-on-surface-variant">Shell scripting &amp; fork() syscalls</p>
+        </div>
+        <button class="p-1.5 rounded bg-surface-container text-primary" onclick="triggerDownload('OS_Lab_Manual_Linux.pdf')">
+          <span class="material-symbols-outlined text-[16px]">download</span>
+        </button>
+      </div>
+      <div class="p-2.5 rounded-xl bg-surface-container-low flex items-center justify-between">
+        <div>
+          <h4 class="text-xs font-bold text-primary">DAA Algorithm Viva Question Bank</h4>
+          <p class="text-[10px] text-on-surface-variant">Top 50 frequently asked viva questions</p>
+        </div>
+        <button class="p-1.5 rounded bg-surface-container text-primary" onclick="triggerDownload('DAA_Viva_Questions.pdf')">
+          <span class="material-symbols-outlined text-[16px]">download</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Alert -->
+<div class="fixed top-16 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 pointer-events-none opacity-0 translate-y-[-10px]" id="toastBox">
+  <div class="px-4 py-2 rounded-full bg-primary text-on-primary text-xs font-semibold shadow-xl border border-secondary flex items-center gap-2">
+    <span class="material-symbols-outlined text-secondary text-[16px]" id="toastIcon">check_circle</span>
+    <span id="toastMsg">Action completed!</span>
+  </div>
+</div>
+
+<!-- Client App Router & Interactions -->
+<script>
+  let navHistory = ['dashboard'];
+  let currentSimBunk = 0;
+  const baseAttended = 34 + 30 + 29;
+  const baseTotal = 37 + 35 + 33;
+
+  const viewTitles = {
+    'dashboard': 'Dashboard',
+    'notes': 'Notes & Books',
+    'copilot': 'CGC Copilot AI',
+    'syllabus': 'Curriculum',
+    'attendance': 'Attendance Analytics',
+    'results': 'Results & Transcript',
+    'timetable': 'Class Schedule',
+    'academic-mobility': 'Academic Mobility',
+    'notifications': 'Notice Board',
+    'profile': 'Student Profile',
+    'campus-info': 'Campus Guide',
+    'vault': 'Offline Vault'
+  };
+
+  function navigateTo(viewId) {
+    if (navHistory[navHistory.length - 1] !== viewId) {
+      navHistory.push(viewId);
+    }
+    renderView(viewId);
+  }
+
+  function navigateBack() {
+    if (navHistory.length > 1) {
+      navHistory.pop();
+      const prevView = navHistory[navHistory.length - 1];
+      renderView(prevView);
+    } else {
+      renderView('dashboard');
+    }
+  }
+
+  function renderView(viewId) {
+    document.querySelectorAll('.app-view').forEach(view => view.classList.add('hidden'));
+    const target = document.getElementById('view-' + viewId);
+    if (target) {
+      target.classList.remove('hidden');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Header updates
+    const backBtn = document.getElementById('backNavBtn');
+    const headerTitle = document.getElementById('headerTitle');
+    headerTitle.textContent = viewTitles[viewId] || 'CGC Mohali';
+
+    if (viewId === 'dashboard') {
+      backBtn.classList.add('hidden');
+    } else {
+      backBtn.classList.remove('hidden');
+    }
+
+    // Bottom Tabs highlighting
+    const tabs = ['dashboard', 'notes', 'copilot', 'syllabus'];
+    tabs.forEach(tab => {
+      const tabEl = document.getElementById('tab-' + tab);
+      if (tabEl) {
+        if (tab === viewId) {
+          tabEl.classList.add('text-primary', 'font-bold');
+          tabEl.classList.remove('text-on-surface-variant');
+        } else {
+          tabEl.classList.remove('text-primary', 'font-bold');
+          tabEl.classList.add('text-on-surface-variant');
+        }
+      }
+    });
+  }
+
+  function openDrawer(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('hidden');
+  }
+
+  function closeModal(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('hidden');
+  }
+
+  function openNoteReader(filename, title) {
+    document.getElementById('readerTitle').textContent = title;
+    document.getElementById('readerFilename').textContent = filename;
+    openDrawer('noteReaderModal');
+  }
+
+  function toggleAccordion(id) {
+    const body = document.getElementById(id);
+    const icon = document.getElementById(id + '-icon');
+    if (body.classList.contains('hidden')) {
+      body.classList.remove('hidden');
+      if (icon) icon.textContent = 'expand_less';
+    } else {
+      body.classList.add('hidden');
+      if (icon) icon.textContent = 'expand_more';
+    }
+  }
+
+  function triggerDownload(filename) {
+    showToast('Downloading ' + filename + ' to Offline Vault...', 'downloading');
+    setTimeout(() => {
+      showToast(filename + ' saved to Offline Vault!', 'check_circle');
+      const badge = document.getElementById('vaultBadge');
+      if (badge) badge.textContent = parseInt(badge.textContent || 2) + 1;
+    }, 900);
+  }
+
+  function showToast(msg, icon) {
+    const toast = document.getElementById('toastBox');
+    document.getElementById('toastMsg').textContent = msg;
+    document.getElementById('toastIcon').textContent = icon || 'check_circle';
+    toast.classList.remove('opacity-0', 'translate-y-[-10px]');
+    toast.classList.add('opacity-100', 'translate-y-0');
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'translate-y-[-10px]');
+      toast.classList.remove('opacity-100', 'translate-y-0');
+    }, 2400);
+  }
+
+  function adjustBunk(delta) {
+    currentSimBunk = Math.max(0, currentSimBunk + delta);
+    document.getElementById('bunkCount').textContent = currentSimBunk;
+    const newTotal = baseTotal + currentSimBunk;
+    const pct = ((baseAttended / newTotal) * 100).toFixed(1);
+    document.getElementById('simulatedAtt').textContent = pct + '%';
+    const advice = document.getElementById('bunkAdvice');
+    if (pct < 75.0) {
+      advice.className = 'text-[11px] p-2 rounded-lg bg-red-50 text-red-900 border border-red-200';
+      advice.innerHTML = '<strong>Warning:</strong> Attendance drops below 75% PTU mandatory criteria!';
+    } else {
+      const remainingSafe = Math.max(0, 7 - currentSimBunk);
+      advice.className = 'text-[11px] p-2 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-200';
+      advice.innerHTML = 'You can safely miss up to <strong>' + remainingSafe + ' more lectures</strong> and remain above 75%.';
+    }
+  }
+
+  function resetBunk() {
+    currentSimBunk = 0;
+    document.getElementById('bunkCount').textContent = '0';
+    document.getElementById('simulatedAtt').textContent = '88.2%';
+    adjustBunk(0);
+  }
+
+  function switchDay(day, btn) {
+    document.querySelectorAll('#view-timetable .px-3').forEach(b => {
+      b.className = 'px-3 py-1 rounded-xl text-xs font-semibold bg-surface-container text-on-surface-variant';
+    });
+    btn.className = 'px-3 py-1 rounded-xl text-xs font-bold bg-primary text-on-primary';
+    showToast('Displaying schedule for ' + day, 'calendar_today');
+  }
+
+  function clearNotifs() {
+    const badge = document.getElementById('notifBadge');
+    if (badge) badge.classList.add('hidden');
+    showToast('All notifications marked as read', 'done_all');
+  }
+
+  function toggleVoiceAgent() {
+    const box = document.getElementById('voiceWaveBox');
+    if (box.classList.contains('hidden')) {
+      box.classList.remove('hidden');
+      showToast('CGC Voice Agent listening...', 'mic');
+    } else {
+      box.classList.add('hidden');
+      showToast('Voice mode paused', 'mic_off');
+    }
+  }
+
+  function sendAiPrompt(text) {
+    document.getElementById('chatInput').value = text;
+    handleChat(new Event('submit'));
+  }
+
+  function handleChat(e) {
+    e.preventDefault();
+    const input = document.getElementById('chatInput');
+    const val = input.value.trim();
+    if (!val) return;
+    const chat = document.getElementById('chatArea');
+
+    // Append user query
+    const userDiv = document.createElement('div');
+    userDiv.className = 'flex justify-end';
+    userDiv.innerHTML = '<div class="p-2.5 rounded-2xl rounded-tr-sm bg-primary text-on-primary text-xs max-w-[85%] shadow-sm">' + val + '</div>';
+    chat.appendChild(userDiv);
+    input.value = '';
+    chat.scrollTop = chat.scrollHeight;
+
+    // Simulate AI response
+    setTimeout(() => {
+      const aiDiv = document.createElement('div');
+      aiDiv.className = 'flex items-start gap-2 max-w-[95%]';
+      aiDiv.innerHTML = '<div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-secondary-container flex-shrink-0 mt-0.5"><span class="material-symbols-outlined text-[15px]">auto_awesome</span></div><div class="p-3 rounded-2xl rounded-tl-sm bg-surface-container-lowest border border-surface-container shadow-sm text-xs text-primary leading-relaxed"><p class="font-bold text-[9px] text-secondary uppercase mb-0.5">PTU Exam Insight</p>Great question on <strong>' + val + '</strong>! As per PTU Question Pattern (BTCS-401), this topic carries high weightage (8-10 marks in Section B). Make sure to draw the semaphore state diagrams and highlight bounded waiting proofs.</div>';
+      chat.appendChild(aiDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }, 600);
+  }
+
+  function filterNotesCategory(cat, btn) {
+    document.querySelectorAll('.n-filter').forEach(b => {
+      b.className = 'n-filter px-3 py-1 rounded-full text-xs font-medium bg-surface-container text-on-surface-variant whitespace-nowrap';
+    });
+    btn.className = 'n-filter px-3 py-1 rounded-full text-xs font-bold bg-primary text-on-primary whitespace-nowrap';
+    document.querySelectorAll('.note-row').forEach(row => {
+      if (cat === 'ALL' || row.getAttribute('data-category') === cat) {
+        row.classList.remove('hidden');
+      } else {
+        row.classList.add('hidden');
+      }
+    });
+  }
+
+  function handleNotesSearch() {
+    const q = document.getElementById('notesSearchBox').value.toLowerCase();
+    const clearBtn = document.getElementById('clearNotesSearch');
+    if (q) clearBtn.classList.remove('hidden'); else clearBtn.classList.add('hidden');
+    document.querySelectorAll('.note-row').forEach(row => {
+      const text = row.getAttribute('data-text').toLowerCase();
+      if (text.includes(q)) row.classList.remove('hidden'); else row.classList.add('hidden');
+    });
+  }
+
+  function resetNotesSearch() {
+    document.getElementById('notesSearchBox').value = '';
+    handleNotesSearch();
+  }
+</script>
+</body>
+</html>

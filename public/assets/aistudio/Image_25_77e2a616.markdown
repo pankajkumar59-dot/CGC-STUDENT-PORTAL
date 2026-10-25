@@ -1,0 +1,204 @@
+---
+name: Academic Mobility
+colors:
+  surface: '#f8f9ff'
+  surface-dim: '#cbdbf5'
+  surface-bright: '#f8f9ff'
+  surface-container-lowest: '#ffffff'
+  surface-container-low: '#eff4ff'
+  surface-container: '#e5eeff'
+  surface-container-high: '#dce9ff'
+  surface-container-highest: '#d3e4fe'
+  on-surface: '#0b1c30'
+  on-surface-variant: '#44474e'
+  inverse-surface: '#213145'
+  inverse-on-surface: '#eaf1ff'
+  outline: '#74777f'
+  outline-variant: '#c4c6cf'
+  surface-tint: '#465f88'
+  primary: '#002046'
+  on-primary: '#ffffff'
+  primary-container: '#1b365d'
+  on-primary-container: '#87a0cd'
+  inverse-primary: '#aec7f7'
+  secondary: '#835500'
+  on-secondary: '#ffffff'
+  secondary-container: '#feae2c'
+  on-secondary-container: '#6b4500'
+  tertiary: '#002625'
+  on-tertiary: '#ffffff'
+  tertiary-container: '#003d3c'
+  on-tertiary-container: '#60aba9'
+  error: '#ba1a1a'
+  on-error: '#ffffff'
+  error-container: '#ffdad6'
+  on-error-container: '#93000a'
+  primary-fixed: '#d6e3ff'
+  primary-fixed-dim: '#aec7f7'
+  on-primary-fixed: '#001b3d'
+  on-primary-fixed-variant: '#2e476f'
+  secondary-fixed: '#ffddb4'
+  secondary-fixed-dim: '#ffb955'
+  on-secondary-fixed: '#291800'
+  on-secondary-fixed-variant: '#633f00'
+  tertiary-fixed: '#a5f0ed'
+  tertiary-fixed-dim: '#89d3d1'
+  on-tertiary-fixed: '#00201f'
+  on-tertiary-fixed-variant: '#00504e'
+  background: '#f8f9ff'
+  on-background: '#0b1c30'
+  surface-variant: '#d3e4fe'
+typography:
+  display-lg:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 36px
+    fontWeight: '800'
+    lineHeight: 44px
+    letterSpacing: -0.02em
+  display-lg-mobile:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 28px
+    fontWeight: '800'
+    lineHeight: 36px
+    letterSpacing: -0.015em
+  headline-lg:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 24px
+    fontWeight: '700'
+    lineHeight: 32px
+    letterSpacing: -0.01em
+  headline-md:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 20px
+    fontWeight: '600'
+    lineHeight: 28px
+  headline-sm:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 18px
+    fontWeight: '600'
+    lineHeight: 24px
+  body-lg:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: 26px
+  body-md:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: '400'
+    lineHeight: 22px
+  body-sm:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '400'
+    lineHeight: 18px
+  label-lg:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 14px
+    fontWeight: '600'
+    lineHeight: 20px
+    letterSpacing: 0.01em
+  label-md:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 12px
+    fontWeight: '600'
+    lineHeight: 16px
+    letterSpacing: 0.02em
+  label-sm:
+    fontFamily: Plus Jakarta Sans
+    fontSize: 10px
+    fontWeight: '700'
+    lineHeight: 14px
+    letterSpacing: 0.04em
+rounded:
+  sm: 0.25rem
+  DEFAULT: 0.5rem
+  md: 0.75rem
+  lg: 1rem
+  xl: 1.5rem
+  full: 9999px
+spacing:
+  gutter: 1rem
+  gutter-tablet: 1.25rem
+  margin: 1rem
+  margin-tablet: 1.5rem
+  space-xs: 0.25rem
+  space-sm: 0.5rem
+  space-md: 1rem
+  space-lg: 1.5rem
+  space-xl: 2rem
+---
+
+## Brand & Style
+The design system delivers an ambitious, energetic, and authoritative campus experience for students, faculty, and prospective scholars. It balances institutional legacy with cutting-edge academic innovation, projecting academic rigor, community vibrancy, and structured clarity.
+
+The visual style blends modern corporate clarity with tactile collegiate accents. The interface avoids bureaucratic clutter, opting instead for crisp surfaces, structured typographic contrast, and deliberate bursts of varsity-inspired amber gold. Interactions feel responsive and confident, engineered for rapid contextual transitions—from glancing at real-time lecture timetables during a sprint across the campus quad to deep reading digital study notes and course syllabi in the library.
+
+## Colors
+The palette grounds itself in collegiate heritage while using vibrant energy to drive motivation and hierarchy:
+
+- **Primary (`#1B365D`)**: Deep Heritage Navy. Serves as the bedrock of navigation bars, primary calls-to-action, high-emphasis text, and core institutional markers.
+- **Secondary (`#F5A623`)**: Vibrant Amber Gold. Reserved for high-value interactive highlights, attendance progress indicators, pending alerts, and varsity badges.
+- **Tertiary (`#2B7A78`)**: Campus Spruce / Verdigris. Employed for verified academic status, passing grades, laboratory modules, and active session pills.
+- **Neutral (`#64748B`)**: Slate Gray. Drives balanced secondary copy, structural dividers, and subtle inactive state styling.
+
+Canvas and card surfaces rely on a crisp foundation: pure white (`#FFFFFF`) for primary elevated cards, backed by layered architectural washes of Slate Ice (`#F8FAFC`) and Muted Pergola (`#EDF2F7`).
+
+## Typography
+The system employs an authoritative geometric pairing:
+
+- **Headings & Key Accents (Plus Jakarta Sans)**: Delivers optimistic, modern character through rounded geometries, balanced counters, and tight tracking for high-impact campus branding and course titles.
+- **Reading & System Data (Inter)**: Provides pristine legibility across high-density reading surfaces, such as exam regulations, downloadable syllabus sheets, and research paper summaries.
+
+Numerical values (marks, attendance percentages, room codes) utilize tabular figures to maintain horizontal alignment within data rows and schedule calendars.
+
+## Layout & Spacing
+The layout follows a responsive 4-column mobile grid scalable to an 8-column configuration on small tablets. Content conforms fluidly to screen width within device-safe margins.
+
+- **Vertical Cadence**: Built on an 8pt base grid with a 4pt sub-grid for badge typography alignment and micro-tag spacing.
+- **Horizontal Screen Padding**: Mobile screens enforce a 16px (`1rem`) outer margin to maximize usable horizontal space for dense course timetables, expanding to 24px (`1.5rem`) on tablets.
+- **Content Blocks**: Cards and list groups use a uniform 16px (`1rem`) spacing gap (`space-md`) to guarantee optical separation without fragmenting information density.
+
+## Elevation & Depth
+Depth relies on crisp surface layering combined with ambient blue-tinted shadows to prevent dirty gray washouts:
+
+- **Level 0 (Flat)**: Background wash (`#F8FAFC`) with no shadow. Used for base screens and unselected list rows.
+- **Level 1 (Card Default)**: `0 1px 3px rgba(27, 54, 93, 0.06), 0 1px 2px rgba(27, 54, 93, 0.04)`. Outlined by a subtle 1px border (`#EDF2F7`). Applied to syllabus items, profile rows, and timetable blocks.
+- **Level 2 (Elevated / Floating Cards)**: `0 4px 14px rgba(27, 54, 93, 0.08), 0 2px 6px rgba(27, 54, 93, 0.04)`. Applied to interactive cards, date selectors, and active lecture alerts.
+- **Level 3 (Modal / Overlays & Persistent Navigation)**: `0 10px 25px rgba(27, 54, 93, 0.12), 0 4px 10px rgba(27, 54, 93, 0.06)`. Used for bottom sheets, quick-action menus, and modal dialogs.
+- **Accent Glow**: `0 0 12px rgba(245, 166, 35, 0.35)`. Reserved strictly for live academic alerts, upcoming assignment reminders, and highlighted study tags.
+
+## Shapes
+The visual identity applies modern, friendly corner radiuses balanced against scholarly structure:
+
+- **Standard Elements (0.5rem / 8px)**: Input fields, list tiles, and secondary buttons.
+- **Containers & Cards (1rem / 16px)**: Timetable cards, grade overviews, and academic event modals.
+- **Feature Modules (1.5rem / 24px)**: Top-level hero banners, attendance status cards, and bottom sheet containers.
+- **Pill Badges & Meta-tags (Full rounded radius / 9999px)**: Academic badges, classroom tags, status indicators, and floating filter chips.
+
+## Components
+
+### Buttons
+- **Primary**: Solid Deep Navy (`#1B365D`) fill, white text, 8px border radius, 48px standard touch height. Active states shift to an intense ink tint (`#0F2537`).
+- **Accent / Action**: Vibrant Amber (`#F5A623`) fill with deep navy text, reserved for "Submit Assignment," "Register for Fest," or "Pay Fee."
+- **Secondary / Ghost**: White or transparent background with 1.5px border in `#EDF2F7` or `#1B365D`, paired with `#1B365D` text.
+
+### Chips & Study Pills
+- **Academic Badges**: Pill-shaped (`rounded-full`), padded `4px 12px`. Light-tinted backgrounds: amber tint (`#FEF6E9`) with `#C57A07` text for pending tasks; spruce tint (`#E8F4F3`) with `#2B7A78` text for cleared credits.
+- **Filter Chips**: 32px height, 1px border (`#E2E8F0`), active state converts to full navy fill with white text.
+
+### Cards
+- Standard modules leverage pure white background surfaces wrapped in a 1px border of `#EDF2F7`, 16px rounded corners, and Level 1 elevation.
+- Hero modules (e.g., Attendance Meter) feature subtle vertical linear gradients from deep navy to vibrant slate, utilizing white typography and high-contrast amber tracking rings.
+
+### Lists & Academic Feeds
+- Syllabi and lecture schedules display divided list modules separated by 1px divider lines (`#F1F5F9`).
+- Left-hand accent tracks (4px wide, vertical border radius) visually distinguish subjects (e.g., Engineering, Business Studies, Computer Science) using designated color accents.
+
+### Form Inputs
+- Single-line fields: 48px height, 8px border radius, `#F8FAFC` fill, `#CBD5E1` border.
+- Focus state activates a 1.5px primary navy border (`#1B365D`) paired with an ambient `0 0 0 3px rgba(27, 54, 93, 0.12)` halo ring.
+
+### Campus-Specific Extras
+- **Semester Timeline Indicator**: Horizontal scrolling date-and-class indicator pairing weekday initials with single-tap lecture jump points.
+- **CGPA & Attendance Ring**: Radial micro-progress meter showcasing threshold margins (e.g., 75% mandatory attendance warnings).

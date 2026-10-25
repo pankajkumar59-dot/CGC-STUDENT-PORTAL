@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #002046;
+  --color-primary-container: #1b365d;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #87a0cd;
+  --color-primary-fixed: #d6e3ff;
+  --color-primary-fixed-dim: #aec7f7;
+  --color-on-primary-fixed: #001b3d;
+  --color-on-primary-fixed-variant: #2e476f;
+
+  --color-secondary: #835500;
+  --color-secondary-container: #feae2c;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #6b4500;
+  --color-secondary-fixed: #ffddb4;
+  --color-secondary-fixed-dim: #ffb955;
+  --color-on-secondary-fixed: #291800;
+  --color-on-secondary-fixed-variant: #633f00;
+
+  --color-tertiary: #002625;
+  --color-tertiary-container: #003d3c;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-fixed: #a5f0ed;
+  --color-tertiary-fixed-dim: #89d3d1;
+  --color-on-tertiary-container: #60aba9;
+
+  --color-surface: #f8f9ff;
+  --color-surface-dim: #cbdbf5;
+  --color-surface-bright: #f8f9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff4ff;
+  --color-surface-container: #e5eeff;
+  --color-surface-container-high: #dce9ff;
+  --color-surface-container-highest: #d3e4fe;
+  --color-surface-variant: #d3e4fe;
+
+  --color-on-surface: #0b1c30;
+  --color-on-surface-variant: #44474e;
+  --color-outline: #74777f;
+  --color-outline-variant: #c4c6cf;
+
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3, h4, h5, h6, button, label {
+    font-family: var(--font-sans);
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    user-select: none;
+  }
+}
+
+/* Hide scrollbar for clean applet feel */
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 8px);
+}
+
+@keyframes voiceWave {
+  0%, 100% { height: 4px; }
+  50% { height: 24px; }
+}
+
+.voice-bar {
+  animation: voiceWave 1s ease-in-out infinite;
+}
+.voice-bar:nth-child(2) { animation-delay: 0.15s; }
+.voice-bar:nth-child(3) { animation-delay: 0.3s; }
+.voice-bar:nth-child(4) { animation-delay: 0.45s; }
+.voice-bar:nth-child(5) { animation-delay: 0.2s; }
