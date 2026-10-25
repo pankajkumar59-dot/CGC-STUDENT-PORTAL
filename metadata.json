@@ -2,5 +2,7 @@
   "name": "CGC Mohali Student Portal & Copilot",
   "description": "Comprehensive academic companion for Chandigarh Group of Colleges students with verified notes, PTU syllabus tracker, exam vault, and AI copilot.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
