@@ -5,6 +5,8 @@ interface DocumentReaderViewProps {
   onAskAi: (topic: string) => void;
   onDownloadFile: (fileName: string) => void;
   onShowVivaModal: () => void;
+  docTitle?: string;
+  docSubject?: string;
 }
 
 export const DocumentReaderView: React.FC<DocumentReaderViewProps> = ({
@@ -12,6 +14,8 @@ export const DocumentReaderView: React.FC<DocumentReaderViewProps> = ({
   onAskAi,
   onDownloadFile,
   onShowVivaModal,
+  docTitle = 'Operating Systems Unit 3: Process Synchronization & Semaphores',
+  docSubject = 'PTU CSE 5th Sem',
 }) => {
   const [currentPage, setCurrentPage] = useState(14);
   const totalPages = 42;
@@ -49,13 +53,13 @@ export const DocumentReaderView: React.FC<DocumentReaderViewProps> = ({
             </button>
             <div className="flex flex-col min-w-0">
               <h1 className="text-sm font-bold text-[#002046] truncate leading-tight">
-                Operating Systems Unit 3: Process Synchronization &amp; Semaphores
+                {docTitle}
               </h1>
               <div className="flex items-center gap-1.5">
                 <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#feae2c] text-[#6b4500] font-bold">
                   Topper Notes
                 </span>
-                <span className="text-xs text-[#44474e] truncate">PTU CSE 5th Sem</span>
+                <span className="text-xs text-[#44474e] truncate">{docSubject}</span>
               </div>
             </div>
           </div>

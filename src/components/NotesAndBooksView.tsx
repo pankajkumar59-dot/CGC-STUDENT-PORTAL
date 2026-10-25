@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 interface NotesAndBooksViewProps {
-  onOpenReader: () => void;
+  onOpenReader: (docTitle?: string, docSubject?: string) => void;
   onDownloadFile: (fileName: string) => void;
   onOpenExamVault: () => void;
   onOpenUploadPrompt: () => void;
@@ -261,7 +261,7 @@ export const NotesAndBooksView: React.FC<NotesAndBooksViewProps> = ({
             {/* Action Button Bar */}
             <div className="grid grid-cols-2 gap-2 pt-1">
               <button
-                onClick={onOpenReader}
+                onClick={() => onOpenReader('Operating Systems Unit 3: Process Synchronization & Semaphores', 'PTU CSE 5th Sem')}
                 className="h-10 px-3 rounded-lg bg-[#dce9ff] hover:bg-[#d3e4fe] text-[#002046] text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer active:scale-95 shadow-sm"
               >
                 <span className="material-symbols-outlined text-[18px] text-[#835500]">auto_awesome</span>
@@ -350,7 +350,7 @@ export const NotesAndBooksView: React.FC<NotesAndBooksViewProps> = ({
             {/* Action Button Bar */}
             <div className="grid grid-cols-2 gap-2 pt-1">
               <button
-                onClick={onOpenReader}
+                onClick={() => onOpenReader('Design & Analysis of Algorithms — CLRS Summaries', 'PTU CSE 5th Sem')}
                 className="h-10 px-3 rounded-lg bg-[#dce9ff] hover:bg-[#d3e4fe] text-[#002046] text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer active:scale-95 shadow-sm"
               >
                 <span className="material-symbols-outlined text-[18px] text-[#835500]">auto_awesome</span>
@@ -443,7 +443,7 @@ export const NotesAndBooksView: React.FC<NotesAndBooksViewProps> = ({
             {/* Action Button Bar */}
             <div className="grid grid-cols-2 gap-2 pt-1">
               <button
-                onClick={onOpenReader}
+                onClick={() => onOpenReader('DBMS Handwritten Topper Notes — Normalization & Transactions', 'PTU CSE 4th Sem')}
                 className="h-10 px-3 rounded-lg bg-[#dce9ff] hover:bg-[#d3e4fe] text-[#002046] text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer active:scale-95 shadow-sm"
               >
                 <span className="material-symbols-outlined text-[18px] text-[#835500]">auto_awesome</span>

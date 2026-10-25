@@ -13,6 +13,9 @@ import { ExamVaultView } from './components/ExamVaultView';
 import { CopilotView } from './components/CopilotView';
 import { SyllabusView } from './components/SyllabusView';
 import { OfflineVaultView } from './components/OfflineVaultView';
+import { CampusMapView } from './components/CampusMapView';
+import { LostFoundView } from './components/LostFoundView';
+import { CampusEventsView } from './components/CampusEventsView';
 import { AttendanceModal } from './components/AttendanceModal';
 import { TimetableModal } from './components/TimetableModal';
 import { NoticeModal } from './components/NoticeModal';
@@ -25,7 +28,7 @@ import { Toast } from './components/Toast';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<
-    'dashboard' | 'notes' | 'copilot' | 'syllabus' | 'reader' | 'exam-vault' | 'vault'
+    'dashboard' | 'notes' | 'copilot' | 'syllabus' | 'reader' | 'exam-vault' | 'vault' | 'map' | 'lost-found' | 'events'
   >('dashboard');
   const [viewHistory, setViewHistory] = useState<string[]>(['dashboard']);
 
@@ -38,6 +41,12 @@ export default function App() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isVivaOpen, setIsVivaOpen] = useState(false);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+
+  // Selected document for DocumentReader
+  const [selectedDocTitle, setSelectedDocTitle] = useState<string>(
+    'Operating Systems Unit 3: Process Synchronization & Semaphores'
+  );
+  const [selectedDocSubject, setSelectedDocSubject] = useState<string>('PTU CSE 5th Sem');
 
   // Copilot preloaded query
   const [copilotQuery, setCopilotQuery] = useState<string | undefined>(undefined);
@@ -70,6 +79,12 @@ export default function App() {
     } else {
       setCurrentView('dashboard');
     }
+  };
+
+  const handleOpenReader = (title?: string, subject?: string) => {
+    if (title) setSelectedDocTitle(title);
+    if (subject) setSelectedDocSubject(subject);
+    navigateTo('reader');
   };
 
   const handleAskAi = (topic: string) => {
@@ -114,13 +129,13 @@ export default function App() {
             onOpenResults={() => setIsResultsOpen(true)}
             onOpenNotices={() => setIsNoticesOpen(true)}
             onDownloadFile={handleDownloadFile}
-            onOpenReader={() => navigateTo('reader')}
+            onOpenReader={() => handleOpenReader()}
           />
         )}
 
         {currentView === 'notes' && (
           <NotesAndBooksView
-            onOpenReader={() => navigateTo('reader')}
+            onOpenReader={handleOpenReader}
             onDownloadFile={handleDownloadFile}
             onOpenExamVault={() => navigateTo('exam-vault')}
             onOpenUploadPrompt={() => setIsUploadOpen(true)}
@@ -133,13 +148,20 @@ export default function App() {
             onAskAi={handleAskAi}
             onDownloadFile={handleDownloadFile}
             onShowVivaModal={() => setIsVivaOpen(true)}
+            docTitle={selectedDocTitle}
+            docSubject={selectedDocSubject}
           />
         )}
 
         {currentView === 'exam-vault' && (
           <ExamVaultView
             onBack={handleBack}
-            onOpenReader={() => navigateTo('reader')}
+            onOpenReader={() =>
+              handleOpenReader(
+                'PTU Solved Paper — Operating Systems (Dec 2023 Regular)',
+                'PTU Official Archive'
+              )
+            }
             onDownloadFile={handleDownloadFile}
             onSolveWithAi={handleAskAi}
             onUploadSnap={() => setIsUploadOpen(true)}
@@ -164,9 +186,21 @@ export default function App() {
         {currentView === 'vault' && (
           <OfflineVaultView
             onBack={handleBack}
-            onOpenReader={() => navigateTo('reader')}
+            onOpenReader={handleOpenReader}
             onExportPdf={handleDownloadFile}
           />
+        )}
+
+        {currentView === 'map' && (
+          <CampusMapView onNotify={triggerToast} />
+        )}
+
+        {currentView === 'lost-found' && (
+          <LostFoundView onNotify={triggerToast} />
+        )}
+
+        {currentView === 'events' && (
+          <CampusEventsView onNotify={triggerToast} />
         )}
       </main>
 

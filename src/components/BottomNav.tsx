@@ -9,17 +9,19 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentView, onNavigate })
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: 'home' },
     { id: 'notes', label: 'Notes & Books', icon: 'menu_book' },
+    { id: 'map', label: 'Campus Map', icon: 'pin_drop' },
     { id: 'copilot', label: 'CGC Copilot', icon: 'auto_awesome', isAi: true },
     { id: 'syllabus', label: 'Syllabus', icon: 'assignment' },
   ];
 
   return (
     <nav className="fixed bottom-0 w-full z-40 pb-safe bg-[#f8f9ff]/90 backdrop-blur-xl border-t border-[#e5eeff] shadow-[0_-4px_16px_rgba(27,54,93,0.06)]">
-      <div className="flex justify-around items-center h-16 max-w-5xl mx-auto px-2">
+      <div className="flex justify-around items-center h-16 max-w-5xl mx-auto px-1">
         {tabs.map((tab) => {
           const isActive =
             currentView === tab.id ||
-            (tab.id === 'notes' && ['reader', 'vault', 'exam-vault'].includes(currentView));
+            (tab.id === 'notes' && ['reader', 'vault', 'exam-vault'].includes(currentView)) ||
+            (tab.id === 'map' && ['lost-found', 'events'].includes(currentView));
 
           return (
             <button

@@ -21,7 +21,49 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   onOpenReader,
 }) => {
   return (
-    <div className="flex flex-col w-full max-w-5xl mx-auto px-4 pt-2 pb-8 gap-4">
+    <div className="flex flex-col w-full max-w-5xl mx-auto px-4 pt-1 pb-10 gap-4">
+      {/* Smart Campus Hero Banner from smart-campus-cgc */}
+      <div className="relative overflow-hidden rounded-2xl min-h-[170px] flex items-end p-4 sm:p-5 text-white shadow-md group">
+        <img
+          src="https://www.cgcuniversity.in/frontend/images/campus-life/banner-mobilee.webp"
+          alt="CGC University Mohali campus life"
+          className="absolute inset-0 w-full h-full object-cover object-center filter brightness-[0.52] group-hover:scale-105 transition-transform duration-700"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#180f23]/90 via-[#180f23]/60 to-transparent"></div>
+
+        <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-end justify-between w-full gap-3">
+          <div className="max-w-md">
+            <span className="text-[10px] text-[#ffddb4] tracking-widest font-bold uppercase block mb-1">
+              CGC UNIVERSITY • JHANJERI &amp; LANDRAN, MOHALI
+            </span>
+            <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight leading-tight">
+              Campus life, connected.
+            </h2>
+            <p className="text-xs text-[#f7efff] mt-1 font-medium">
+              One student-friendly front door for notices, study notes, classes &amp; campus places.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              onClick={() => onNavigate('map')}
+              className="px-3 py-1.5 rounded-lg bg-[#002046]/80 hover:bg-[#002046] border border-white/30 text-xs font-bold text-white flex items-center gap-1 shadow-sm backdrop-blur-md active:scale-95 transition-all cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[15px] text-[#feae2c]">pin_drop</span>
+              <span>Find a Place</span>
+            </button>
+
+            <button
+              onClick={() => onNavigate('lost-found')}
+              className="px-3 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 border border-white/30 text-xs font-bold text-white flex items-center gap-1 shadow-sm backdrop-blur-md active:scale-95 transition-all cursor-pointer"
+            >
+              <span className="material-symbols-outlined text-[15px] text-[#feae2c]">search</span>
+              <span>Lost &amp; Found</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Student Profile & Academic Standing Card */}
       <div className="relative overflow-hidden rounded-2xl bg-[#1b365d] text-white p-4 shadow-md">
         {/* Collegiate Ambient Watermark */}
@@ -41,15 +83,15 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               </span>
             </div>
 
-            <h2 className="text-2xl font-extrabold tracking-tight text-white truncate flex items-center gap-1">
-              {CURRENT_STUDENT.name}
+            <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white truncate flex items-center gap-1">
+              Good morning, {CURRENT_STUDENT.name.split(' ')[0]}
             </h2>
             <p className="text-xs text-[#87a0cd] truncate mt-0.5 font-medium">
               Roll No: {CURRENT_STUDENT.rollNo} • {CURRENT_STUDENT.program}
             </p>
           </div>
 
-          {/* Attendance Micro-Radial Progress (Tappable to Attendance & Bunk Simulator) */}
+          {/* Attendance Micro-Radial Progress */}
           <button
             onClick={onOpenAttendance}
             aria-label="View Attendance & Bunk Safety Details"
@@ -104,6 +146,36 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <span className="w-2 h-2 rounded-full bg-[#feae2c] animate-ping"></span>
             <span className="text-[11px] text-white font-medium">Active Academic Session 2024–25</span>
           </div>
+        </div>
+      </div>
+
+      {/* Smart Campus Daily Stats Ticker */}
+      <div className="grid grid-cols-3 gap-2.5">
+        <div
+          onClick={onOpenTimetable}
+          className="p-3 rounded-xl bg-white border border-[#e5eeff] shadow-sm flex flex-col cursor-pointer hover:border-[#feae2c] transition-all"
+        >
+          <span className="text-[10px] text-[#74777f] font-semibold">Classes today</span>
+          <span className="text-xl font-bold text-[#002046] mt-0.5">4</span>
+          <span className="text-[10px] text-[#003d3c] font-bold truncate">Next: 11:00 AM OS</span>
+        </div>
+
+        <div
+          onClick={onOpenNotices}
+          className="p-3 rounded-xl bg-white border border-[#e5eeff] shadow-sm flex flex-col cursor-pointer hover:border-[#feae2c] transition-all"
+        >
+          <span className="text-[10px] text-[#74777f] font-semibold">New notices</span>
+          <span className="text-xl font-bold text-[#002046] mt-0.5">3</span>
+          <span className="text-[10px] text-[#835500] font-bold truncate">2 for Sem 4</span>
+        </div>
+
+        <div
+          onClick={() => onNavigate('events')}
+          className="p-3 rounded-xl bg-white border border-[#e5eeff] shadow-sm flex flex-col cursor-pointer hover:border-[#feae2c] transition-all"
+        >
+          <span className="text-[10px] text-[#74777f] font-semibold">Campus events</span>
+          <span className="text-xl font-bold text-[#002046] mt-0.5">5</span>
+          <span className="text-[10px] text-[#1b365d] font-bold truncate">TechFest 29 Oct</span>
         </div>
       </div>
 
@@ -222,6 +294,42 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </div>
           </button>
         </div>
+      </div>
+
+      {/* Smart Campus Extra Features: Map, Lost & Found, Events */}
+      <div className="grid grid-cols-3 gap-2.5">
+        <button
+          onClick={() => onNavigate('map')}
+          className="p-3 rounded-xl bg-white border border-[#e5eeff] shadow-sm flex flex-col items-center text-center gap-1 hover:border-[#835500] active:scale-95 transition-all cursor-pointer"
+        >
+          <div className="w-9 h-9 rounded-lg bg-[#dce9ff] text-[#002046] flex items-center justify-center">
+            <span className="material-symbols-outlined text-[20px]">pin_drop</span>
+          </div>
+          <span className="text-xs font-bold text-[#002046]">Find a Room</span>
+          <span className="text-[10px] text-[#74777f]">Campus Map</span>
+        </button>
+
+        <button
+          onClick={() => onNavigate('lost-found')}
+          className="p-3 rounded-xl bg-white border border-[#e5eeff] shadow-sm flex flex-col items-center text-center gap-1 hover:border-[#835500] active:scale-95 transition-all cursor-pointer"
+        >
+          <div className="w-9 h-9 rounded-lg bg-[#ffddb4] text-[#835500] flex items-center justify-center">
+            <span className="material-symbols-outlined text-[20px]">manage_search</span>
+          </div>
+          <span className="text-xs font-bold text-[#002046]">Lost &amp; Found</span>
+          <span className="text-[10px] text-[#74777f]">Community</span>
+        </button>
+
+        <button
+          onClick={() => onNavigate('events')}
+          className="p-3 rounded-xl bg-white border border-[#e5eeff] shadow-sm flex flex-col items-center text-center gap-1 hover:border-[#835500] active:scale-95 transition-all cursor-pointer"
+        >
+          <div className="w-9 h-9 rounded-lg bg-[#a5f0ed] text-[#00201f] flex items-center justify-center">
+            <span className="material-symbols-outlined text-[20px]">celebration</span>
+          </div>
+          <span className="text-xs font-bold text-[#002046]">Campus Events</span>
+          <span className="text-[10px] text-[#74777f]">TechFest '26</span>
+        </button>
       </div>
 
       {/* Campus Featured Study Resources (Department Study Shelf) */}
@@ -409,81 +517,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <span className="text-[11px] text-[#835500] font-semibold">Ref: CGC/EXAM/24/109</span>
             </div>
           </div>
-
-          {/* Notice 2 */}
-          <div className="p-3.5 rounded-xl bg-white border border-[#e5eeff] shadow-sm flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <span className="px-2 py-0.5 rounded-full bg-[#feae2c]/30 text-[#835500] text-[10px] font-bold uppercase tracking-wider">
-                CRC Placement
-              </span>
-              <span className="text-[11px] text-[#44474e]">3 days ago</span>
-            </div>
-            <h4 className="text-sm font-bold text-[#002046]">
-              Campus Placement Drive &amp; Pre-Placement Training Schedule
-            </h4>
-            <p className="text-xs text-[#44474e] leading-relaxed">
-              Mandatory orientation session for 2026 graduating batch regarding coding assessments, aptitude workshops, and mock technical interviews.
-            </p>
-            <div className="pt-1 flex items-center justify-between text-xs">
-              <button
-                onClick={onOpenNotices}
-                className="text-[#002046] font-bold inline-flex items-center gap-1 hover:text-[#835500] cursor-pointer"
-              >
-                View Eligibility &amp; Register
-                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-              </button>
-              <span className="text-[11px] text-[#44474e]">Auditorium 1</span>
-            </div>
-          </div>
         </div>
-      </div>
-
-      {/* Campus Pulse & Clubs */}
-      <div className="p-3.5 rounded-xl bg-[#eff4ff] border border-[#e5eeff] flex flex-col gap-2.5">
-        <div className="flex items-center justify-between">
-          <h4 className="text-sm font-bold text-[#002046]">Campus Pulse &amp; Clubs</h4>
-          <span className="text-xs text-[#835500] font-bold">Mohali Quad</span>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div
-            className="relative h-24 rounded-lg overflow-hidden bg-cover bg-center flex items-end p-2 cursor-pointer active:scale-95 transition-transform"
-            style={{
-              backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuBuiZ3T3UoFw9zeRvF-XvXvBrR1XfbDQRJ5cDpAJuNd1kuktlwsL3tHIh__kDrp6ULJMviwj3Gm8o-TpcibQRMrSSrC14ZMl1mluTLKbAFhV5rfbQNhtxnVEuhho_hftvoV684YPQLNy2Vm-m6PPfWuc-D5r_ySVSGnv6bWHT9CojjyGHKqVxkF1zh99tlNcnSFINddzl7SfDNn76MHel9diIFqJEIE1cSm4Ir4CT3r10o_vXO0RHdg')`,
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-[#002046]/90 to-transparent"></div>
-            <span className="relative z-10 text-xs font-bold text-white">Parivartan Tech Fest</span>
-          </div>
-
-          <div
-            className="relative h-24 rounded-lg overflow-hidden bg-cover bg-center flex items-end p-2 cursor-pointer active:scale-95 transition-transform"
-            style={{
-              backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuBIJCiNx_hOXd9-WaYe1Fs8-LruN9_09Sn02YQXFYFSwjX48qRiZLnxbHR2ZVq8RXWRJZmVu84EbppAIWr3Blb3bkogLTZX0nM1noQms364NSUN8OIPYuqCTpoOihn850Xtvr9DAzix5fd98L0aTbdhygS6JYWvX8ucEk1mOTff0-BVsiOhgsYc7q_PYL-VMED_RdElhC5DY_JuFPchv3trc7DMTyOpqsQpelLbCw6rd1ejGifvALhS')`,
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-[#002046]/90 to-transparent"></div>
-            <span className="relative z-10 text-xs font-bold text-white">Annual Sports League</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Help & Query Bar */}
-      <div className="p-3.5 rounded-xl bg-[#dce9ff] border border-[#cbdbf5] flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5 min-w-0">
-          <div className="w-9 h-9 rounded-full bg-[#002046] text-white flex items-center justify-center flex-shrink-0">
-            <span className="material-symbols-outlined text-[20px]">help_outline</span>
-          </div>
-          <div className="flex flex-col min-w-0">
-            <span className="text-xs font-bold text-[#002046] truncate">Have syllabus or exam doubts?</span>
-            <span className="text-[11px] text-[#44474e] truncate">Ask CGC Copilot or reach CSE Department Desk</span>
-          </div>
-        </div>
-        <button
-          onClick={() => onNavigate('copilot')}
-          className="px-3.5 py-1.5 rounded-lg bg-[#002046] text-white text-xs font-bold hover:bg-[#1b365d] active:scale-95 transition-all flex-shrink-0 cursor-pointer shadow-sm"
-        >
-          Ask AI
-        </button>
       </div>
     </div>
   );

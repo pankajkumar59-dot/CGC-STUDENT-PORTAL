@@ -20,7 +20,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenProfile,
   onOpenLogin,
 }) => {
-  const isSubView = ['reader', 'vault', 'exam-vault'].includes(currentView);
+  const isSubView = ['reader', 'vault', 'exam-vault', 'map', 'lost-found', 'events'].includes(currentView);
 
   const getTitle = () => {
     switch (currentView) {
@@ -38,6 +38,12 @@ export const Header: React.FC<HeaderProps> = ({
         return 'Downloads & Vault';
       case 'exam-vault':
         return 'Exam Vault & PYQs';
+      case 'map':
+        return 'Find a Place (Map)';
+      case 'lost-found':
+        return 'Lost & Found Board';
+      case 'events':
+        return 'Campus Events';
       default:
         return 'Student Portal';
     }
@@ -74,7 +80,48 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
+        {/* Desktop Quick Navigation Tabs */}
+        <nav className="hidden md:flex items-center gap-0.5 bg-[#eff4ff] p-1 rounded-full border border-[#dce9ff] text-xs">
+          {[
+            { id: 'dashboard', label: 'Overview' },
+            { id: 'notes', label: 'Notes' },
+            { id: 'exam-vault', label: 'PYQ Vault' },
+            { id: 'copilot', label: 'Copilot AI' },
+            { id: 'map', label: 'Map' },
+            { id: 'lost-found', label: 'Lost & Found' },
+            { id: 'events', label: 'Events' },
+            { id: 'vault', label: 'Offline' },
+          ].map((item) => {
+            const active = currentView === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => onNavigate(item.id)}
+                className={`px-2.5 py-1 rounded-full font-bold transition-all cursor-pointer ${
+                  active
+                    ? 'bg-[#1b365d] text-white shadow-sm'
+                    : 'text-[#44474e] hover:text-[#002046] hover:bg-white/60'
+                }`}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </nav>
+
         <div className="flex items-center gap-1.5 flex-shrink-0">
+          {/* Find a place shortcut */}
+          <button
+            onClick={() => onNavigate('map')}
+            aria-label="Campus Map"
+            title="Campus Map & Room Finder"
+            className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors cursor-pointer ${
+              currentView === 'map' ? 'bg-[#dce9ff] text-[#002046]' : 'text-[#002046] hover:bg-[#e5eeff]'
+            }`}
+          >
+            <span className="material-symbols-outlined text-[20px]">pin_drop</span>
+          </button>
+
           {/* Campus Switcher / Login portal button */}
           <button
             onClick={onOpenLogin}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface OfflineVaultViewProps {
   onBack: () => void;
-  onOpenReader: () => void;
+  onOpenReader: (docTitle?: string, docSubject?: string) => void;
   onExportPdf: (fileName: string) => void;
 }
 
@@ -404,7 +404,7 @@ export const OfflineVaultView: React.FC<OfflineVaultViewProps> = ({
               <span>Export PDF</span>
             </button>
             <button
-              onClick={onOpenReader}
+              onClick={() => onOpenReader('Operating Systems: Concepts & CGC Hands-on Handout', 'CSE Sem 4')}
               className="px-3 py-1.5 rounded-lg bg-[#1b365d] text-white hover:bg-[#002046] text-xs font-bold transition-all shadow-sm active:scale-95 flex items-center gap-1.5 cursor-pointer"
             >
               <span className="material-symbols-outlined text-[16px]">menu_book</span>
@@ -450,7 +450,7 @@ export const OfflineVaultView: React.FC<OfflineVaultViewProps> = ({
               <span>Export PDF</span>
             </button>
             <button
-              onClick={onOpenReader}
+              onClick={() => onOpenReader('Design & Analysis of Algorithms — MST-1 Solved Paper', 'PTU Official Archive')}
               className="px-3 py-1.5 rounded-lg bg-[#1b365d] text-white hover:bg-[#002046] text-xs font-bold transition-all shadow-sm active:scale-95 flex items-center gap-1.5 cursor-pointer"
             >
               <span className="material-symbols-outlined text-[16px]">menu_book</span>
@@ -494,7 +494,7 @@ export const OfflineVaultView: React.FC<OfflineVaultViewProps> = ({
               <span>Export PDF</span>
             </button>
             <button
-              onClick={onOpenReader}
+              onClick={() => onOpenReader('PTU CSE 4th Semester Full Curriculum & Lab Manuals Bundle', 'Autonomous 2021–25 Scheme')}
               className="px-3 py-1.5 rounded-lg bg-[#1b365d] text-white hover:bg-[#002046] text-xs font-bold transition-all shadow-sm active:scale-95 flex items-center gap-1.5 cursor-pointer"
             >
               <span className="material-symbols-outlined text-[16px]">menu_book</span>
